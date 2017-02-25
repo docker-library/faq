@@ -1,6 +1,6 @@
 Thank you for your contribution and time.
 
-Unfortunately this is not something we want to support and maintain. For most users, just running "<insert-image-name-here>" at a specific version fulfills all their requirements. They don't need to care about the underlying distribution it is running within. If they are running their own application, in python for example, and they are unable to run it in our Debian, Alpine, or Windows Server Core based python images, then they are free to install python and their required dependencies within CentOS, Ubuntu, or other base distribution image.
+Unfortunately this is not something we want to support and maintain. For most users, just having "<insert-image-name-here>" at a specific version fulfills all their requirements. They don't need to care about the underlying distribution it is running within. If they are running their own application, in python for example, and they are unable to run it in our Debian, Alpine, or Windows Server Core based python images, then they are free to install python and their required dependencies within CentOS, Ubuntu, or other base distribution image.
 
 For many images here are the variants that we maintain with short descriptions and why we have them:
 
