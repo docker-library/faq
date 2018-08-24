@@ -1,8 +1,6 @@
 # Frequently Asked Questions
 
-As stewards of the official images and maintainers of many images ourselves, we often see a lot of questions that surface repeatedly.
-
-This repository is an attempt to gather some of those and provide some answers!
+As stewards of the official images and maintainers of many images ourselves, we often see a lot of questions that surface repeatedly. This repository is an attempt to gather some of those and provide some answers!
 
 ## Table of Contents
 
@@ -16,7 +14,7 @@ This repository is an attempt to gather some of those and provide some answers!
 
 This question is so common it's answered in our primary repository!
 
-See [the README of `github.com/docker-library/official-images`](https://github.com/docker-library/official-images#what-do-you-mean-by-official).
+See [the answer in the readme of the `github.com/docker-library/official-images` repository](https://github.com/docker-library/official-images#what-do-you-mean-by-official).
 
 ### Why do so many official images build from source?
 
