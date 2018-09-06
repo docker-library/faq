@@ -25,3 +25,19 @@ For example, the PostgreSQL project publishes (and recommends the use of) their 
 On the flip side, the PHP project will only officially support users who are using the latest release (https://bugs.php.net/, "Make sure you are using the latest stable version or a build from Git"), which the distributions do not provide. Additionally, their "installation" documentation describes building from source as the officially supported method of consuming PHP.
 
 So to summarize, there isn't an "official images" policy one way or the other regarding building from source; we leave it up to each image maintainer to make the appropriate judgement on what's going to be the best representation / most supported solution for the upstream project they're representing.
+
+### How are images built? (especially multiarch)
+
+Images are built via a [semi-complex Jenkins infrastructure](https://doi-janky.infosiftr.net/), and the sources for much of that can be found in [the `github.com/docker-library/oi-janky-groovy` repository](https://github.com/docker-library/oi-janky-groovy).
+
+The infrastructure is a combination of machines provided by Docker, Inc. and several generous donors (for non-`amd64` architectures):
+
+-	`arm32vN`: [WorksOnArm](https://github.com/WorksOnArm/cluster/issues/7)
+-	`arm32v6` (selected images): QEMU on Tianon's personal machine; see:
+	-	https://github.com/docker-library/busybox/pull/41
+	-	https://github.com/docker-library/golang/issues/196
+	-	https://github.com/docker-library/memcached/issues/25
+	-	https://github.com/docker-library/postgres/issues/420#issuecomment-370033903
+	-	https://github.com/docker-library/redis/issues/137
+-	`arm64v8`: [Linaro](https://www.linaro.org/)
+-	`ppc64le`, `s390x`: [IBM](https://www.ibm.com/)
