@@ -16,16 +16,6 @@ This question is so common it's answered in our primary repository!
 
 See [the answer in the readme of the `github.com/docker-library/official-images` repository](https://github.com/docker-library/official-images#what-do-you-mean-by-official).
 
-### Why do so many official images build from source?
-
-The tendancy for many official images to build from source is a direct result of trying to closely follow each upstream's official recommendations for how to deploy and consume their product/project.
-
-For example, the PostgreSQL project publishes (and recommends the use of) their own official `.deb` packages, so [the `postgres` image](https://hub.docker.com/_/postgres/) builds directly from those (from http://apt.postgresql.org/).
-
-On the flip side, the PHP project will only officially support users who are using the latest release (https://bugs.php.net/, "Make sure you are using the latest stable version or a build from Git"), which the distributions do not provide. Additionally, their "installation" documentation describes building from source as the officially supported method of consuming PHP.
-
-So to summarize, there isn't an "official images" policy one way or the other regarding building from source; we leave it up to each image maintainer to make the appropriate judgement on what's going to be the best representation / most supported solution for the upstream project they're representing.
-
 ### How are images built? (especially multiarch)
 
 Images are built via a [semi-complex Jenkins infrastructure](https://doi-janky.infosiftr.net/), and the sources for much of that can be found in [the `github.com/docker-library/oi-janky-groovy` repository](https://github.com/docker-library/oi-janky-groovy).
@@ -53,3 +43,13 @@ At a high-level, the image publishing process looks something like this:
 The `bashbrew` tool is one built by the official images team for the purposes of building and pushing the images. At a very high level, it's a wrapper around `git` and `docker build` in order to help us manage the various `library/xxx` files in the main official images repository in a simple and repeatable way (especially focused around using explicit Git commits in order to achieve maximum repeatability and `Dockerfile` source change reviewability).
 
 The source code is currently found in [the `bashbrew/` subdirectory](https://github.com/docker-library/official-images/tree/master/bashbrew) of [the `github.com/docker-library/official-images` repository](https://github.com/docker-library/official-images). Precompiled artifacts (which are used on the official build servers) can be downloaded from [the relevant Jenkins job](https://doi-janky.infosiftr.net/job/bashbrew/lastSuccessfulBuild/artifact/bin/).
+
+### Why do so many official images build from source?
+
+The tendancy for many official images to build from source is a direct result of trying to closely follow each upstream's official recommendations for how to deploy and consume their product/project.
+
+For example, the PostgreSQL project publishes (and recommends the use of) their own official `.deb` packages, so [the `postgres` image](https://hub.docker.com/_/postgres/) builds directly from those (from http://apt.postgresql.org/).
+
+On the flip side, the PHP project will only officially support users who are using the latest release (https://bugs.php.net/, "Make sure you are using the latest stable version or a build from Git"), which the distributions do not provide. Additionally, their "installation" documentation describes building from source as the officially supported method of consuming PHP.
+
+So to summarize, there isn't an "official images" policy one way or the other regarding building from source; we leave it up to each image maintainer to make the appropriate judgement on what's going to be the best representation / most supported solution for the upstream project they're representing.
