@@ -47,3 +47,9 @@ At a high-level, the image publishing process looks something like this:
 1.	images are built on a machine relevant to their architecture
 2.	architecture-specific images get pushed to the respective architecture-specific Docker Hub namespace (`amd64/xxx`, `arm64v8/xxx`, `s390x/xxx`, etc)
 3.	a manifest list is created for `library/xxx` from the list of architecture-specific artifacts ([caveat docker-library/official-images#3835](https://github.com/docker-library/official-images/issues/3835))
+
+### What is `bashbrew`? Where can I download it?
+
+The `bashbrew` tool is one built by the official images team for the purposes of building and pushing the images. At a very high level, it's a wrapper around `git` and `docker build` in order to help us manage the various `library/xxx` files in the main official images repository in a simple and repeatable way (especially focused around using explicit Git commits in order to achieve maximum repeatability and `Dockerfile` source change reviewability).
+
+The source code is currently found in [the `bashbrew/` subdirectory](https://github.com/docker-library/official-images/tree/master/bashbrew) of [the `github.com/docker-library/official-images` repository](https://github.com/docker-library/official-images). Precompiled artifacts (which are used on the official build servers) can be downloaded from [the relevant Jenkins job](https://doi-janky.infosiftr.net/job/bashbrew/lastSuccessfulBuild/artifact/bin/).
