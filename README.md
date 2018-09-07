@@ -41,3 +41,9 @@ The infrastructure is a combination of machines provided by Docker, Inc. and sev
 	-	https://github.com/docker-library/redis/issues/137
 -	`arm64v8`: [Linaro](https://www.linaro.org/)
 -	`ppc64le`, `s390x`: [IBM](https://www.ibm.com/)
+
+At a high-level, the image publishing process looks something like this:
+
+1.	images are built on a machine relevant to their architecture
+2.	architecture-specific images get pushed to the respective architecture-specific Docker Hub namespace (`amd64/xxx`, `arm64v8/xxx`, `s390x/xxx`, etc)
+3.	a manifest list is created for `library/xxx` from the list of architecture-specific artifacts ([caveat docker-library/official-images#3835](https://github.com/docker-library/official-images/issues/3835))
