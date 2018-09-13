@@ -5,3 +5,4 @@
 - `HEALTHCHECK` (https://github.com/docker-library/healthcheck)
 - how are images signed (https://github.com/docker-library/official-images/issues/1516)
 - `ONBUILD` (https://github.com/docker-library/official-images/issues/2076)
+- Why not Ubuntu, CentOS, ClefOS, etc? (https://github.com/docker-library/python/issues/61#issuecomment-282450114)
