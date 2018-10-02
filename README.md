@@ -52,6 +52,6 @@ For example, the PostgreSQL project publishes (and recommends the use of) their 
 
 On the flip side, the PHP project will only officially support users who are using the latest release (https://bugs.php.net/, "Make sure you are using the latest stable version or a build from Git"), which the distributions do not provide. Additionally, their "installation" documentation describes building from source as the officially supported method of consuming PHP.
 
-So to summarize, there isn't an "official images" policy one way or the other regarding building from source; we leave it up to each image maintainer to make the appropriate judgement on what's going to be the best representation / most supported solution for the upstream project they're representing.
-
 One common result of this is that Alpine-based images are almost always required to build from source because it is somewhat rare for an upstream to provide "official" binaries, but when they do they're almost always in the form of something linked against glibc and as such it is very rare for Alpine-compatible binaries to be published (hence most Alpine images building from source).
+
+So to summarize, there isn't an "official images" policy one way or the other regarding building from source; we leave it up to each image maintainer to make the appropriate judgement on what's going to be the best representation / most supported solution for the upstream project they're representing.
