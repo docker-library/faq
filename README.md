@@ -44,6 +44,8 @@ The `bashbrew` tool is one built by the official images team for the purposes of
 
 The source code is currently found in [the `bashbrew/` subdirectory](https://github.com/docker-library/official-images/tree/master/bashbrew) of [the `github.com/docker-library/official-images` repository](https://github.com/docker-library/official-images). Precompiled artifacts (which are used on the official build servers) can be downloaded from [the relevant Jenkins job](https://doi-janky.infosiftr.net/job/bashbrew/lastSuccessfulBuild/artifact/bin/).
 
+## Image Building
+
 ### Why do so many official images build from source?
 
 The tendancy for many official images to build from source is a direct result of trying to closely follow each upstream's official recommendations for how to deploy and consume their product/project.
@@ -55,3 +57,14 @@ On the flip side, the PHP project will only officially support users who are usi
 One common result of this is that Alpine-based images are almost always required to build from source because it is somewhat rare for an upstream to provide "official" binaries, but when they do they're almost always in the form of something linked against glibc and as such it is very rare for Alpine-compatible binaries to be published (hence most Alpine images building from source).
 
 So to summarize, there isn't an "official images" policy one way or the other regarding building from source; we leave it up to each image maintainer to make the appropriate judgement on what's going to be the best representation / most supported solution for the upstream project they're representing.
+
+### `HEALTHCHECK`
+
+Explicit health checks are not added to official images for a number of reasons, some of which include:
+
+-	many users will have their own idea of what "healthy" means and credentials change over time making generic health checks hard to define
+-	after upgrading their images, current users will have extra unexpected load on their systems for healthchecks they don't necessarily need/want and may be unaware of
+-	Kubernetes does not use Docker's heath checks (opting instead for separate [`liveness` and `readiness` probes](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/))
+-	sometimes things like databases will take too long to initialize, and a defined health check will often cause the orchestration system to prematurely kill the container ([docker-library/mysql#439 for instance](https://github.com/docker-library/mysql/issues/439))
+
+The [docker-library/healthcheck repository](https://github.com/docker-library/healthcheck) is to serve as an example for creating your own image derived from the prototypes present. They serve to showcase the best practices in creating your own healthcheck for your specific task and needs.

@@ -2,7 +2,6 @@
 - breaking changes / image change notifications
 - CVEs (https://github.com/docker-library/buildpack-deps/issues/46, https://github.com/docker-library/official-images/issues/2740#issuecomment-286253279)
 - GPG (why keyserver and not `KEYS` file, https://github.com/docker-library/official-images/issues/4252)
-- `HEALTHCHECK` (https://github.com/docker-library/healthcheck)
 - how are images signed (https://github.com/docker-library/official-images/issues/1516)
 - move more items from https://github.com/docker-library/official-images#readme over here
 - `ONBUILD` (https://github.com/docker-library/official-images/issues/2076)
