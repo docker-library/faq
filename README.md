@@ -48,7 +48,7 @@ The source code is currently found in [the `bashbrew/` subdirectory](https://git
 
 ### Why do so many official images build from source?
 
-The tendancy for many official images to build from source is a direct result of trying to closely follow each upstream's official recommendations for how to deploy and consume their product/project.
+The tendency for many official images to build from source is a direct result of trying to closely follow each upstream's official recommendations for how to deploy and consume their product/project.
 
 For example, the PostgreSQL project publishes (and recommends the use of) their own official `.deb` packages, so [the `postgres` image](https://hub.docker.com/_/postgres/) builds directly from those (from http://apt.postgresql.org/).
 
