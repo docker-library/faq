@@ -68,3 +68,17 @@ Explicit health checks are not added to official images for a number of reasons,
 -	sometimes things like databases will take too long to initialize, and a defined health check will often cause the orchestration system to prematurely kill the container ([docker-library/mysql#439 for instance](https://github.com/docker-library/mysql/issues/439))
 
 The [docker-library/healthcheck repository](https://github.com/docker-library/healthcheck) is to serve as an example for creating your own image derived from the prototypes present. They serve to showcase the best practices in creating your own healthcheck for your specific task and needs.
+
+## Image Usage
+
+### `--link` is deprecated!
+
+> The reports of `--link`'s death are greatly exaggerated.
+>
+> \-*Mark Twain, probably*
+
+The [documentation for "legacy container links" (`--link`)](https://docs.docker.com/network/links/) include a large warning about `--link` potentially going away at some point, but there is no timeline given and this "soft deprecation" has been going strong for a very long time. Their usage is definitely discouraged, but we expect Docker will continue to support them for quite some time.
+
+The official-images documentation uses `--link` in its examples for simplicity, including not needing to detail Docker network management, and `--link`'s feature of inherently exchanging connection information to the linked containers as environment variables.
+
+If Docker removes `--link` in a future release, we'll have to expand our documentation to use `--network` instead (to the detriment of documentation simplicity).
