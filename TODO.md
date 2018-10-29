@@ -5,5 +5,5 @@
 - how are images signed (https://github.com/docker-library/official-images/issues/1516)
 - move more items from https://github.com/docker-library/official-images#readme over here
 - `ONBUILD` (https://github.com/docker-library/official-images/issues/2076)
-- `VOLUME`; why we use it, why we recommend it, and why you shouldn't use a database without it
+- `VOLUME`; why we use it, when to use it, why we recommend it, and why you shouldn't use a database without it (https://github.com/docker-library/official-images/pull/2437#issuecomment-266578827)
 - Why not Ubuntu, CentOS, ClefOS, etc? (https://github.com/docker-library/python/issues/61#issuecomment-282450114)
