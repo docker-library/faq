@@ -56,6 +56,14 @@ The `bashbrew` tool is one built by the official images team for the purposes of
 
 The source code is currently found in [the `bashbrew/` subdirectory](https://github.com/docker-library/official-images/tree/master/bashbrew) of [the `github.com/docker-library/official-images` repository](https://github.com/docker-library/official-images). Precompiled artifacts (which are used on the official build servers) can be downloaded from [the relevant Jenkins job](https://doi-janky.infosiftr.net/job/bashbrew/lastSuccessfulBuild/artifact/bin/).
 
+### What do you mean by "Supported"?
+
+On every image description, there is a section entitled "Supported tags and respective `Dockerfile` links" (for example, see [`debian`'s Hub page](https://hub.docker.com/_/debian/)).
+
+Within the Official Images program, we use the word "Supported" to mean something like actively maintained. To put that another way, a particular 2.5.6 software release is considered supported if a severe bug being found would cause a 2.5.7 release (and once 2.5.7 is released, 2.5.6 is no longer considered supported, but the Docker Hub tag is typically left available for pulling -- it will simply never get rebuilt after that point given that it is unsupported).
+
+See [the "Library definition files" section](https://github.com/docker-library/official-images#library-definition-files) of our maintainer documentation for more details.
+
 ## Image Building
 
 ### Why do so many official images build from source?
