@@ -65,6 +65,16 @@ Within the Official Images program, we use the word "Supported" to mean somethin
 
 See [the "Library definition files" section](https://github.com/docker-library/official-images#library-definition-files) of our maintainer documentation for more details.
 
+### What's the difference between "Shared" and "Simple" tags?
+
+Some images have separated "Simple Tags" and "Shared Tags" sections under "Supported tags and respective `Dockerfile` links" (see [the `mongo` image](https://hub.docker.com/_/mongo/) for an example).
+
+"Shared Tags" are tags which point to a manifest list which includes some combination of potentially multiple versions of Windows and Linux images -- in the `mongo` example, the `4.0` tag is a shared tag consisting of (at the time of this writing) all of `4.0-xenial`, `4.0-windowsservercore-ltsc2016`, `4.0-windowsservercore-1709`, and `4.0-windowsservercore-1803`.
+
+"Simple Tags" are less fancy -- instances of a single Linux image or image for one specific Windows version (such as Windows Server Core LTSC 2016).
+
+The primary goal of "Shared Tags" is to enable `docker run mongo:4.0` to roughly "do the right thing" on both Linux and as many of the various versions of Windows that are supported.
+
 ## Image Building
 
 ### Why do so many official images build from source?
