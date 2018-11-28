@@ -13,6 +13,7 @@ As stewards of the official images and maintainers of many images ourselves, we 
 		2.	[How are images built? (especially multiarch)](#how-are-images-built-especially-multiarch)
 		3.	[What is `bashbrew`? Where can I download it?](#what-is-bashbrew-where-can-i-download-it)
 		4.	[What do you mean by "Supported"?](#what-do-you-mean-by-supported)
+		5.	[What's the difference between "Shared" and "Simple" tags?](#whats-the-difference-between-shared-and-simple-tags)
 	3.	[Image Building](#image-building)
 		1.	[Why do so many official images build from source?](#why-do-so-many-official-images-build-from-source)
 		2.	[`HEALTHCHECK`](#healthcheck)
