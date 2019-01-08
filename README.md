@@ -78,6 +78,25 @@ The "Simple Tags" enable `docker run mongo:4.0-xenial` to "do the right thing" a
 
 ## Image Building
 
+### Why does my security scanner show that an image has so many CVEs?
+
+Though not every CVE is removed from the images, we take CVEs seriously and try to ensure that images contain the most up-to-date packages available within a reasonable time frame. For many of the Official Images, a security scanner, like [Docker Security Scanning](https://docs.docker.com/docker-hub/official_images/#official-image-vulnerability-scanning) or [Clair](https://github.com/coreos/clair) might show many CVEs, which can happen for a variety of reasons:
+
+-	Upstream maintainers don't always agree with the vulnerabilities listed in the CVE database.
+	-	e.g., [CVE-2005-2541](https://nvd.nist.gov/vuln/detail/CVE-2005-2541) is considered a High severity vulnerability, but in [Debian](https://security-tracker.debian.org/tracker/CVE-2005-2541) is considered “intended behavior,” making it a feature, not a bug.
+-	The OS Security team (like [Debian Seurity](https://wiki.debian.org/Teams/Security)) only has so much available time and has to deprioritize some security fixes over others. This could be because the threat is considered low or that it is too intrusive to backport to the version in "stable".
+	-	e.g., [CVE-2017-15804](https://nvd.nist.gov/vuln/detail/CVE-2017-15804) is considered a High severity vulnerability, but in [Debian](https://security-tracker.debian.org/tracker/CVE-2017-15804) it is marked as a "Minor issue" in Stretch and so no fix is available.
+-	Lower-severity vulnerabilities may not have been prioritized upstream. Typically, maintainers address less severe vulnerabilities at a regular cadence, so while the latest version may not contain the relevant patch, a future version will.
+-	Vulnerabilities may not have an available patch, and so even though they've been identified, there is no current solution.
+
+We strive to publish updated images at least monthly for Debian and Ubuntu. We also rebuild earlier if there is a critical security need, e.g. [docker-library/official-images#2171](https://github.com/docker-library/official-images/issues/2171). Many Official Images are maintained by the community or their respective upstream projects, like Alpine and Oracle Linux, and are subject to their own maintenance schedule. These refreshed base images also means that any other image in the Official Images program that is `FROM` them will also be rebuilt (as described in [the project `README.md` file](https://github.com/docker-library/official-images#library-definition-files)).
+
+It is up to individual users to determine whether not a CVE applies to how you are running your service and is beyond the scope of the FAQ.
+
+Parts of this FAQ entry are inspired by [a Google Cloud blog post](https://cloud.google.com/blog/products/containers-kubernetes/exploring-container-security-let-google-do-the-patching-with-new-managed-base-images) (specifically their "Working with managed base images" section), which has additional information which may be useful or relevant.
+
+Related issues: [docker-library/buildpack-deps#46](https://github.com/docker-library/buildpack-deps/issues/46#issuecomment-242863442), [docker-library/official-images#2740](https://github.com/docker-library/official-images/issues/2740#issuecomment-286253279)
+
 ### Why do so many official images build from source?
 
 The tendency for many official images to build from source is a direct result of trying to closely follow each upstream's official recommendations for how to deploy and consume their product/project.
