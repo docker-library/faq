@@ -15,8 +15,9 @@ As stewards of the official images and maintainers of many images ourselves, we 
 		4.	[What do you mean by "Supported"?](#what-do-you-mean-by-supported)
 		5.	[What's the difference between "Shared" and "Simple" tags?](#whats-the-difference-between-shared-and-simple-tags)
 	3.	[Image Building](#image-building)
-		1.	[Why do so many official images build from source?](#why-do-so-many-official-images-build-from-source)
-		2.	[`HEALTHCHECK`](#healthcheck)
+		1.	[Why does my security scanner show that an image has so many CVEs?](#why-does-my-security-scanner-show-that-an-image-has-so-many-cves)
+		2.	[Why do so many official images build from source?](#why-do-so-many-official-images-build-from-source)
+		3.	[`HEALTHCHECK`](#healthcheck)
 	4.	[Image Usage](#image-usage)
 		1.	[`--link` is deprecated!](#--link-is-deprecated)
 
