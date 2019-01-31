@@ -5,4 +5,5 @@
 - move more items from https://github.com/docker-library/official-images#readme over here
 - `ONBUILD` (https://github.com/docker-library/official-images/issues/2076)
 - `VOLUME`; why we use it, when to use it, why we recommend it, and why you shouldn't use a database without it (https://github.com/docker-library/official-images/pull/2437#issuecomment-266578827)
+- why did `xxx` image change? (https://github.com/nginxinc/docker-nginx/issues/307#issuecomment-459522363, https://github.com/docker-library/python/issues/372#issuecomment-458757250, etc)
 - Why not Ubuntu, CentOS, ClefOS, etc? (https://github.com/docker-library/python/issues/61#issuecomment-282450114)
