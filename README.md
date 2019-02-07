@@ -15,7 +15,7 @@ As stewards of the official images and maintainers of many images ourselves, we 
 		4.	[What do you mean by "Supported"?](#what-do-you-mean-by-supported)
 		5.	[What's the difference between "Shared" and "Simple" tags?](#whats-the-difference-between-shared-and-simple-tags)
 	3.	[Image Building](#image-building)
-		1.	[Why does my security scanner show that an image has so many CVEs?](#why-does-my-security-scanner-show-that-an-image-has-so-many-cves)
+		1.	[Why does my security scanner show that an image has CVEs?](#why-does-my-security-scanner-show-that-an-image-has-cves)
 		2.	[Why do so many official images build from source?](#why-do-so-many-official-images-build-from-source)
 		3.	[`HEALTHCHECK`](#healthcheck)
 	4.	[Image Usage](#image-usage)
@@ -79,16 +79,26 @@ The "Simple Tags" enable `docker run mongo:4.0-xenial` to "do the right thing" a
 
 ## Image Building
 
-### Why does my security scanner show that an image has so many CVEs?
+### Why does my security scanner show that an image has CVEs?
 
-Though not every CVE is removed from the images, we take CVEs seriously and try to ensure that images contain the most up-to-date packages available within a reasonable time frame. For many of the Official Images, a security scanner, like [Docker Security Scanning](https://docs.docker.com/docker-hub/official_images/#official-image-vulnerability-scanning) or [Clair](https://github.com/coreos/clair) might show many CVEs, which can happen for a variety of reasons:
+Though not every CVE is removed from the images, we take CVEs seriously and try to ensure that images contain the most up-to-date packages available within a reasonable time frame. For many of the Official Images, a security scanner, like [Docker Security Scanning](https://docs.docker.com/docker-hub/official_images/#official-image-vulnerability-scanning) or [Clair](https://github.com/coreos/clair) might show CVEs, which can happen for a variety of reasons:
 
--	Upstream maintainers don't always agree with the vulnerabilities listed in the CVE database.
+### The CVE has not been addressed in that particular image
+
+-	Upstream maintainers don't consider a particular CVE to be a vulnerability that needs to be fixed and so won't be fixed.
 	-	e.g., [CVE-2005-2541](https://nvd.nist.gov/vuln/detail/CVE-2005-2541) is considered a High severity vulnerability, but in [Debian](https://security-tracker.debian.org/tracker/CVE-2005-2541) is considered “intended behavior,” making it a feature, not a bug.
--	The OS Security team (like [Debian Seurity](https://wiki.debian.org/Teams/Security)) only has so much available time and has to deprioritize some security fixes over others. This could be because the threat is considered low or that it is too intrusive to backport to the version in "stable".
-	-	e.g., [CVE-2017-15804](https://nvd.nist.gov/vuln/detail/CVE-2017-15804) is considered a High severity vulnerability, but in [Debian](https://security-tracker.debian.org/tracker/CVE-2017-15804) it is marked as a "Minor issue" in Stretch and so no fix is available.
--	Lower-severity vulnerabilities may not have been prioritized upstream. Typically, maintainers address less severe vulnerabilities at a regular cadence, so while the latest version may not contain the relevant patch, a future version will.
+-	The OS Security team only has so much available time and has to deprioritize some security fixes over others. This could be because the threat is considered low or that it is too intrusive to backport to the version in "stable".
+	-	e.g., [CVE-2017-15804](https://nvd.nist.gov/vuln/detail/CVE-2017-15804) is considered a High severity vulnerability, but in [Debian](https://security-tracker.debian.org/tracker/CVE-2017-15804) it is marked as a "Minor issue" in Stretch and no fix is available.
 -	Vulnerabilities may not have an available patch, and so even though they've been identified, there is no current solution.
+
+### The listed CVE is a false positive
+The security scanners can't reliably check for CVEs, so it uses heuristics to determine whether an image is vulnerable.
+Those heuristics fail to take some factors into account:
+
+-	Is the image affected by the CVE at all? It might not be possible to trigger the vulnerability at all with this image.
+-	If the image is not supported by the security scanner, it uses wrong checks to determine whether a fix is included.
+	-	e.g., For RPM-based OS images, the Red Hat package database is used to map CVEs to package versions. This causes severe mismatches on other RPM-based distros.
+	-	This also leads to not showing CVEs which actually affect a given image.
 
 We strive to publish updated images at least monthly for Debian and Ubuntu. We also rebuild earlier if there is a critical security need, e.g. [docker-library/official-images#2171](https://github.com/docker-library/official-images/issues/2171). Many Official Images are maintained by the community or their respective upstream projects, like Alpine and Oracle Linux, and are subject to their own maintenance schedule. These refreshed base images also means that any other image in the Official Images program that is `FROM` them will also be rebuilt (as described in [the project `README.md` file](https://github.com/docker-library/official-images#library-definition-files)).
 
