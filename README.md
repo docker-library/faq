@@ -135,6 +135,20 @@ Explicit health checks are not added to official images for a number of reasons,
 
 The [docker-library/healthcheck repository](https://github.com/docker-library/healthcheck) is to serve as an example for creating your own image derived from the prototypes present. They serve to showcase the best practices in creating your own healthcheck for your specific task and needs.
 
+### OpenPGP / GnuPG Keys and Verification
+
+Ideally, images that require downloaded artifacts [should use some cryptographic signature to verify that the artifacts are what we expect them to be](https://github.com/docker-library/official-images#image-build) (mostly from a provenance perspective, but also from a network transmission perspective). Many open source projects publish PGP signatures (typically as a "detached" siganture file) which can be used for the purpose of verifying artifact provenance (with the theory being that only the correct publishers of said artifact are in possession of the private key material required to create said signature).
+
+The way we typically recommend image maintainers fetch those public keys to verify said artifacts is via `gpg --batch --keyserver ha.pool.sks-keyservers.net --recv-keys XXXXX` (where `XXXXX` gets replaced with the *full* key fingerprint, as in `97FC712E4C024BBEA48A61ED3A5CA953F73C700D`). Users of the keyservers have noted that they all seem to have undesirable behavior of one form or another (using a single keyserver like `pgp.mit.edu` tends to have downtime or bandwidth issues, while using a round-robin DNS entry like `ha.pool.sks-keyservers.net` either has IPv6 mirrors in rotation or has hosts that are down or misbehaving, leading to key fetch failures).
+
+One common solution to this problem is to add a simple shell script loop to try multiple servers (as seen in [docker-library/official-images#4252](https://github.com/docker-library/official-images/issues/4252)), but this has several downsides (the primary being that it's difficult to get the failure behavior exactly right and that it makes the `Dockerfile` slightly more complex for very little functional gain).
+
+Our solution to the problem of flaky keyservers is to use a single keyserver in our `Dockerfile`s (we use `ha.pool.sks-keyservers.net` because it has less downsides than pinning to a single server), and instead hijack DNS for our builds to point that at a local instance of [github.com/tianon/pgp-happy-eyeballs](https://github.com/tianon/pgp-happy-eyeballs), which is a project that takes incoming HTTP GET requests for keys and in turn forwards them out to several keyservers at once, returning back to the client the fastest successful response (which has been working very successfully for us since early 2018).
+
+Another common solution to this problem is to simply check a `KEYS` file into Git that contains the public keys content (see [Apache Ant's `KEYS` file](https://www.apache.org/dist/ant/KEYS) for an example). The primary downsides of this are that it's a pain during the Official Images review process (since every added/removed `KEYS` entry is many lines of what essentially is just noise to the image `diff`) but more importantly that it becomes much more difficult for users to then *verify* that the key being checked is one that upstream officially publishes (it's fairly common for upstreams to officially publish key fingerprints, as seen in [RabbitMQ's "Signatures" page](https://www.rabbitmq.com/signatures.html)).
+
+Additionally, any usage of the GnuPG command-line tool (`gpg`) [should include the `--batch` command-line flag](https://bugs.debian.org/913614#27) (to enable what is essentially GnuPG's "API" mode).
+
 ## Image Usage
 
 ### `--link` is deprecated!
