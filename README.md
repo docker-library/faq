@@ -39,12 +39,7 @@ Images are built via a [semi-complex Jenkins infrastructure](https://doi-janky.i
 The infrastructure is a combination of machines provided by Docker, Inc. and several generous donors (for non-`amd64` architectures):
 
 -	`arm32vN`: [WorksOnArm](https://github.com/WorksOnArm/cluster/issues/7)
--	`arm32v6` (selected images): QEMU on Tianon's personal machine; see:
-	-	https://github.com/docker-library/busybox/pull/41
-	-	https://github.com/docker-library/golang/issues/196
-	-	https://github.com/docker-library/memcached/issues/25
-	-	https://github.com/docker-library/postgres/issues/420#issuecomment-370033903
-	-	https://github.com/docker-library/redis/issues/137
+	-	`memcached`: QEMU on Tianon's personal machine; see https://github.com/docker-library/memcached/issues/25
 -	`arm64v8`: [Linaro](https://www.linaro.org/)
 -	`ppc64le`, `s390x`: [IBM](https://www.ibm.com/)
 
