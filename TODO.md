@@ -7,4 +7,5 @@
 - why did `xxx` image change? (https://github.com/nginxinc/docker-nginx/issues/307#issuecomment-459522363, https://github.com/docker-library/python/issues/372#issuecomment-458757250, etc)
 - why doesn't image Y include tool X?  it's really useful to me!  (https://github.com/docker-library/golang/issues/250#issuecomment-451201761, https://github.com/docker-library/docker/issues/56)
 - Why not Ubuntu, CentOS, ClefOS, etc? (https://github.com/docker-library/python/issues/61#issuecomment-282450114)
+- why order tags from most specific to least
 - Windows Nano Server > 2016
