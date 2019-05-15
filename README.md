@@ -47,7 +47,7 @@ At a high-level, the image publishing process looks something like this:
 
 1.	images are built on a machine relevant to their architecture
 2.	architecture-specific images get pushed to the respective architecture-specific Docker Hub namespace (`amd64/xxx`, `arm64v8/xxx`, `s390x/xxx`, etc)
-3.	a manifest list is created for `library/xxx` from the list of architecture-specific artifacts ([caveat docker-library/official-images#3835](https://github.com/docker-library/official-images/issues/3835))
+3.	a manifest list is created for `library/xxx` from the list of architecture-specific artifacts
 
 ### What is `bashbrew`? Where can I download it?
 
