@@ -172,6 +172,26 @@ Another common solution to this problem is to simply check a `KEYS` file into Gi
 
 Additionally, any usage of the GnuPG command-line tool (`gpg`) [should include the `--batch` command-line flag](https://bugs.debian.org/913614#27) (to enable what is essentially GnuPG's "API" mode).
 
+### Multi-stage Builds
+
+Following [docker-library/official-images#5929](https://github.com/docker-library/official-images/pull/5929), multi-stage builds are officially supported by the official-images build tooling, and tentatively approved for use.
+
+The main caveat of that change is outlined in [docker-library/official-images#5929 (comment)](https://github.com/docker-library/official-images/pull/5929#discussion_r285316415), namely that we don't have a clean way to preserve the cache for the intermediate stages of a proper multi-stage image, and as such they should be used sparingly. As such, we've come up with several guidelines to help image maintainers determine whether their use of multi-stage builds is one that's likely to be accepted during image review:
+
+1.	only a single `FROM`, but potentially multiple `COPY --from=xxx:yyy ...` copying from other tagged official images; for example:
+
+	-	a `tomcat` image doing `FROM openjdk:XXX-jre` followed by `COPY --from=tomcat:XXX-jdk /path/to/compiled/tomcat/native ...` to get the compiled "Tomcat Native" artifacts for a JRE-based image out of the JDK-based counterpart
+
+	-	a Windows Nano Server image copying artifacts from the larger Windows Server Core variant to overcome the lack of PowerShell for downloading/installing artifacts
+
+2.	two-stage build where the necessary artifact does not exist and must be built from source and/or the build process is going to be similarly highly deterministic (thus mitigating the cache concern somewhat); for example:
+
+	-	a Go project without official binary releases (although it is highly recommended for something trivial like Go to publish actual official release binaries, especially if the Go version required/supported for building is highly specific [given that Go only supports two major releases at a time](https://golang.org/doc/devel/release.html#policy))
+
+	-	using [`jlink` from a JDK 9+ image](https://docs.oracle.com/javase/9/tools/jlink.htm) to create an image with a minimal JRE that contains only the necessary components for the contained application
+
+It is also worth pointing out [moby/moby#37830 (no sticky bits)](https://github.com/moby/moby/issues/37830), [moby/moby#37123 (no ownership preservation until 19.03+)](https://github.com/moby/moby/issues/37123), and [moby/moby#36759 (no `ADD --from=xxx`)](https://github.com/moby/moby/issues/36759), so multi-stage builds are not currently supported/useful for "base" images like `ubuntu`.
+
 ## Image Usage
 
 ### `--link` is deprecated!
