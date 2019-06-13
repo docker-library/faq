@@ -32,22 +32,44 @@ This question is so common it's answered in our primary repository!
 
 See [the answer in the readme of the `github.com/docker-library/official-images` repository](https://github.com/docker-library/official-images#what-do-you-mean-by-official).
 
+### An image's source changed in Git, now what?
+
+Let's walk through the full lifecycle of a change to an image to help explain the process better. We'll use the [`golang`](https://hub.docker.com/_/golang) image as an example to help illustrate each step.
+
+1.	a change gets committed to the relevant image source Git repository (either via direct commit, PR, or [some automated process](https://doi-janky.infosiftr.net/job/update.sh/) -- somehow some change is committed to the Git repository for the image source)
+
+	-	for [`golang`](https://hub.docker.com/_/golang), that would be a commit to [the `github.com/docker-library/golang` repository](https://github.com/docker-library/golang), such as [a9171b (the update to Go 1.12.6)](https://github.com/docker-library/golang/commit/a9171b851ba926f2979e8c711d25faa025194def)
+
+2.	a PR to the relevant `library/xxx` manifest file is created against https://github.com/docker-library/official-images (which is the source-of-truth for the official images program as a whole)
+
+	-	for [a9171b](https://github.com/docker-library/golang/commit/a9171b851ba926f2979e8c711d25faa025194def), that PR would be [docker-library/official-images#6070](https://github.com/docker-library/official-images/pull/6070) ([changing `library/golang` within that repository](https://github.com/docker-library/official-images/pull/6070/files) to point to the updated commits from [the `github.com/docker-library/golang` repository](https://github.com/docker-library/golang) and updating `Tags:` references if applicable)
+
+3.	that PR (and a full diff of the actual `Dockerfile` source changes) is then reviewed by [the official images maintainers](https://github.com/docker-library/official-images/blob/master/MAINTAINERS), and a basic build test is produced (to ensure that it will likely build properly on the real build servers if accepted, and to run [a small series of official images tests](https://github.com/docker-library/official-images/tree/master/test) against the built image)
+
+	-	for [docker-library/official-images#6070](https://github.com/docker-library/official-images/pull/6070), that can be seen in [the "Diff:" comment](https://github.com/docker-library/official-images/pull/6070#issuecomment-501305092) and [the build test comment](https://github.com/docker-library/official-images/pull/6070#issuecomment-501305150)
+
+4.	once merged, [the official images build infrastructure](#how-are-images-built-especially-multiarch) will pick up the changes and build and push to the relevant per-architecture repositories (`amd64/xxx`, `arm64v8/xxx`, etc)
+
+	-	for [`golang`](https://hub.docker.com/_/golang), those per-architecture build jobs can be seen in [the "golang" view in the build architecture](https://doi-janky.infosiftr.net/job/multiarch/view/images/view/golang/)
+
+5.	after those jobs push updated artifacts to the architecture-specific repositories ([`amd64/xxx`](https://hub.docker.com/u/amd64), [`arm64v8/xxx`](https://hub.docker.com/u/arm64v8), etc), [a separate job](https://doi-janky.infosiftr.net/job/put-shared/) collects those updates into ["index" objects](https://github.com/opencontainers/image-spec/blob/v1.0.1/image-index.md) (also known as ["manifest lists"](https://docs.docker.com/registry/spec/manifest-v2-2/#manifest-list)) under [`library/xxx`](https://hub.docker.com/u/library) (which is [the "default" namespace within Docker](https://github.com/docker/docker-ce/blob/v18.09.6/components/engine/vendor/github.com/docker/distribution/reference/normalize.go))
+
+	-	for [`golang`](https://hub.docker.com/_/golang), that would be [the `put-shared/light` job](https://doi-janky.infosiftr.net/job/put-shared/job/light/), because it is not [a "heavy hitter"](https://github.com/docker-library/official-images/blob/master/heavy-hitters.txt)
+
+For images [maintained by the docker-library team](https://github.com/docker-library), we typically include a couple useful scripts in the repository itself (`./update.sh` and `./generate-stackbrew-library.sh`) which help with automating simple version bumps and managing multiple similar versions via `Dockerfile` templating, and [we also have infrastructure which automatically performs those bumps (assuming a build test of the bump passes, which catches most scraping issues, etc)](https://doi-janky.infosiftr.net/job/update.sh/) and commits them directly to the relevant image repository (which is exactly how [the illustrative `golang` a9171b commit](https://github.com/docker-library/golang/commit/a9171b851ba926f2979e8c711d25faa025194def) referenced above was created).
+
 ### How are images built? (especially multiarch)
 
 Images are built via a [semi-complex Jenkins infrastructure](https://doi-janky.infosiftr.net/), and the sources for much of that can be found in [the `github.com/docker-library/oi-janky-groovy` repository](https://github.com/docker-library/oi-janky-groovy).
 
-The infrastructure is a combination of machines provided by Docker, Inc. and several generous donors (for non-`amd64` architectures):
+The actual infrastructure is a combination of machines provided by our generous donors:
 
--	`arm32vN`: [WorksOnArm](https://github.com/WorksOnArm/cluster/issues/7)
-	-	`memcached`: QEMU on Tianon's personal machine; see https://github.com/docker-library/memcached/issues/25
--	`arm64v8`: [Linaro](https://www.linaro.org/)
+-	`amd64`, `i386`, Jenkins nodes: [Docker, Inc.](https://www.docker.com/)
+-	`arm32vN`, `arm64v8`: [WorksOnArm](https://github.com/WorksOnArm/cluster/issues/7)  
+	(minus `arm32vN/memcached`, which uses QEMU on Tianon's personal machine; see [docker-library/memcached#25](https://github.com/docker-library/memcached/issues/25) for details)
 -	`ppc64le`, `s390x`: [IBM](https://www.ibm.com/)
 
-At a high-level, the image publishing process looks something like this:
-
-1.	images are built on a machine relevant to their architecture
-2.	architecture-specific images get pushed to the respective architecture-specific Docker Hub namespace (`amd64/xxx`, `arm64v8/xxx`, `s390x/xxx`, etc)
-3.	a manifest list is created for `library/xxx` from the list of architecture-specific artifacts
+For a more complete view of the full image change/publishing process, see ["An image's source changed in Git, now what?"](#an-images-source-changed-in-git-now-what) above.
 
 ### What is `bashbrew`? Where can I download it?
 
