@@ -54,7 +54,7 @@ Let's walk through the full lifecycle of a change to an image to help explain th
 
 5.	once merged, [the official images build infrastructure](#how-are-images-built-especially-multiarch) will pick up the changes and build and push to the relevant per-architecture repositories (`amd64/xxx`, `arm64v8/xxx`, etc)
 
-	-	for [`golang`](https://hub.docker.com/_/golang), those per-architecture build jobs can be seen in [the "golang" view in the build architecture](https://doi-janky.infosiftr.net/job/multiarch/view/images/view/golang/)
+	-	for [`golang`](https://hub.docker.com/_/golang), those per-architecture build jobs can be seen in [the "golang" view in the build infrastructure](https://doi-janky.infosiftr.net/job/multiarch/view/images/view/golang/)
 
 6.	after those jobs push updated artifacts to the architecture-specific repositories ([`amd64/xxx`](https://hub.docker.com/u/amd64), [`arm64v8/xxx`](https://hub.docker.com/u/arm64v8), etc), [a separate job](https://doi-janky.infosiftr.net/job/put-shared/) collects those updates into ["index" objects](https://github.com/opencontainers/image-spec/blob/v1.0.1/image-index.md) (also known as ["manifest lists"](https://docs.docker.com/registry/spec/manifest-v2-2/#manifest-list)) under [`library/xxx`](https://hub.docker.com/u/library) (which is [the "default" namespace within Docker](https://github.com/docker/docker-ce/blob/v18.09.6/components/engine/vendor/github.com/docker/distribution/reference/normalize.go))
 
