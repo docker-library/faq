@@ -20,6 +20,7 @@ As stewards of the official images and maintainers of many images ourselves, we 
 		2.	[Why do so many official images build from source?](#why-do-so-many-official-images-build-from-source)
 		3.	[`HEALTHCHECK`](#healthcheck)
 		4.	[OpenPGP / GnuPG Keys and Verification](#openpgp--gnupg-keys-and-verification)
+		5.	[Multi-stage Builds](#multi-stage-builds)
 	4.	[Image Usage](#image-usage)
 		1.	[`--link` is deprecated!](#--link-is-deprecated)
 
