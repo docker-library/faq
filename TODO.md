@@ -6,6 +6,7 @@
 - `VOLUME`; why we use it, when to use it, why we recommend it, and why you shouldn't use a database without it (https://github.com/docker-library/official-images/pull/2437#issuecomment-266578827)
 - why did `xxx` image change? (https://github.com/nginxinc/docker-nginx/issues/307#issuecomment-459522363, https://github.com/docker-library/python/issues/372#issuecomment-458757250, etc)
 - why doesn't image Y include tool X?  it's really useful to me!  (https://github.com/docker-library/golang/issues/250#issuecomment-451201761, https://github.com/docker-library/docker/issues/56)
+- why not store `Dockerfile` in the main repo? (`COPY . ...`, https://github.com/getsentry/docker-sentry/pull/208#issuecomment-574830575)
 - Why not Ubuntu, CentOS, ClefOS, etc? (https://github.com/docker-library/python/issues/61#issuecomment-282450114)
 - why order tags from most specific to least
 - Windows Nano Server > 2016
