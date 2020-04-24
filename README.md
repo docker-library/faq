@@ -73,6 +73,7 @@ The actual infrastructure is a combination of machines provided by our generous 
 -	`amd64`, `i386`, Jenkins nodes: [Docker, Inc.](https://www.docker.com/)
 -	`arm32vN`, `arm64v8`: [WorksOnArm](https://github.com/WorksOnArm/cluster/issues/7)  
 	(minus `arm32vN/memcached`, which uses QEMU on Tianon's personal machine; see [docker-library/memcached#25](https://github.com/docker-library/memcached/issues/25) for details)
+-	`mips64le`: [Loongson](http://www.loongson.cn/)
 -	`ppc64le`, `s390x`: [IBM](https://www.ibm.com/)
 
 For a more complete view of the full image change/publishing process, see ["An image's source changed in Git, now what?"](#an-images-source-changed-in-git-now-what) above.
