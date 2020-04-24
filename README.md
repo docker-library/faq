@@ -82,7 +82,7 @@ For a more complete view of the full image change/publishing process, see ["An i
 
 The `bashbrew` tool is one built by the official images team for the purposes of building and pushing the images. At a very high level, it's a wrapper around `git` and `docker build` in order to help us manage the various `library/xxx` files in the main official images repository in a simple and repeatable way (especially focused around using explicit Git commits in order to achieve maximum repeatability and `Dockerfile` source change reviewability).
 
-The source code is currently found in [the `bashbrew/` subdirectory](https://github.com/docker-library/official-images/tree/master/bashbrew) of [the `github.com/docker-library/official-images` repository](https://github.com/docker-library/official-images). Precompiled artifacts (which are used on the official build servers) can be downloaded from [the relevant Jenkins job](https://doi-janky.infosiftr.net/job/bashbrew/lastSuccessfulBuild/artifact/bin/).
+The source code is in [the `github.com/docker-library/bashbrew` repository](https://github.com/docker-library/bashbrew). Precompiled artifacts (which are used on the official build servers) can be downloaded from [the relevant Jenkins job](https://doi-janky.infosiftr.net/job/bashbrew/job/master/lastSuccessfulBuild/artifact/) or [the GitHub releases](https://github.com/docker-library/bashbrew/releases).
 
 ### What do you mean by "Supported"?
 
