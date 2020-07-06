@@ -205,6 +205,6 @@ It is also worth pointing out [moby/moby#37830 (no sticky bits)](https://github.
 
 The [documentation for "legacy container links" (`--link`)](https://docs.docker.com/network/links/) include a large warning about `--link` potentially going away at some point, but there is no timeline given and this "soft deprecation" has been going strong for a very long time. Their usage is definitely discouraged, but we expect Docker will continue to support them for quite some time.
 
-The official-images documentation uses `--link` in its examples for simplicity, including not needing to detail Docker network management, and `--link`'s feature of inherently exchanging connection information to the linked containers as environment variables.
+Many sources of image documentation use `--link` in their examples for simplicity, including not needing to detail Docker network management, and `--link`'s feature of inherently exchanging connection information to the linked containers as environment variables.
 
-If Docker removes `--link` in a future release, we'll have to expand our documentation to use `--network` instead (to the detriment of documentation simplicity).
+Several of the official images were updated in [docker-library/docs#1441](https://github.com/docker-library/docs/pull/1441) with the compromise of using `--network some-network` in an attempt to convey to users that additional effort will be required for them to connect their services successfully (implying that they should go read documentation / learn about Docker's container networking functionality).
