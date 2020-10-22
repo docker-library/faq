@@ -195,6 +195,10 @@ The main caveat of that change is outlined in [docker-library/official-images#59
 
 It is also worth pointing out [moby/moby#37830 (no sticky bits)](https://github.com/moby/moby/issues/37830), [moby/moby#37123 (no ownership preservation until 19.03+)](https://github.com/moby/moby/issues/37123), and [moby/moby#36759 (no `ADD --from=xxx`)](https://github.com/moby/moby/issues/36759), so multi-stage builds are not currently supported/useful for "base" images like `ubuntu`.
 
+### Why isn't there a Windows equivalent of `docker-entrypoint.sh`?
+
+This is an unfortunate design limitation of Windows. On Linux, we have the `exec` family of system calls (and a Bash built-in by the same name) that allows us to completely replace our current running process with another. This is what allows us to run an `ENTRYPOINT` script which performs some initialization logic, then replaces itself with the actual server/application process directly (so that Docker can track that process properly). On Windows, [that interface doesn't really exist](https://serverfault.com/a/567393/58240) (and [is really difficult to emulate properly](https://stackoverflow.com/q/51185115/433558)), which means that in order to even begin to replicate this behavior, we'd have to implement a process monitor as well to sit between Docker and and the server/application process for the lifetime of the session (all for some simple initialization behavior, which is kind of a heavy toll).
+
 ## Image Usage
 
 ### `--link` is deprecated!
