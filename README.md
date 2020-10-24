@@ -21,6 +21,7 @@ As stewards of the official images and maintainers of many images ourselves, we 
 		3.	[`HEALTHCHECK`](#healthcheck)
 		4.	[OpenPGP / GnuPG Keys and Verification](#openpgp--gnupg-keys-and-verification)
 		5.	[Multi-stage Builds](#multi-stage-builds)
+		6.	[Why isn't there a Windows equivalent of `docker-entrypoint.sh`?](#why-isnt-there-a-windows-equivalent-of-docker-entrypointsh)
 	4.	[Image Usage](#image-usage)
 		1.	[`--link` is deprecated!](#--link-is-deprecated)
 
