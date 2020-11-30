@@ -200,6 +200,18 @@ It is also worth pointing out [moby/moby#37830 (no sticky bits)](https://github.
 
 This is an unfortunate design limitation of Windows. On Linux, we have the `exec` family of system calls (and a Bash built-in by the same name) that allows us to completely replace our current running process with another. This is what allows us to run an `ENTRYPOINT` script which performs some initialization logic, then replaces itself with the actual server/application process directly (so that Docker can track that process properly). On Windows, [that interface doesn't really exist](https://serverfault.com/a/567393/58240) (and [is really difficult to emulate properly](https://stackoverflow.com/q/51185115/433558)), which means that in order to even begin to replicate this behavior, we'd have to implement a process monitor as well to sit between Docker and and the server/application process for the lifetime of the session (all for some simple initialization behavior, which is kind of a heavy toll).
 
+### Can I use a bot to make my image update PRs?
+
+Sure! Just a few simple guidelines/requests:
+
+1.	don't make them "too often"
+	-	multiple times per week is definitely "too often"
+	-	once every week is a bit on the boundary, but acceptable
+	-	serious security issues override this
+2.	make sure the PR @-references any/all human maintainers so you see our review comments
+3.	only one PR at a time, please (the easiest way to accomplish this is to use the same branch name every time)
+4.	base every new PR off the `master` branch from https://github.com/docker-library/official-images, *not* from your fork (especially important if we squash-merge your PRs)
+
 ## Image Usage
 
 ### `--link` is deprecated!
