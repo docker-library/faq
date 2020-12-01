@@ -22,6 +22,7 @@ As stewards of the official images and maintainers of many images ourselves, we 
 		4.	[OpenPGP / GnuPG Keys and Verification](#openpgp--gnupg-keys-and-verification)
 		5.	[Multi-stage Builds](#multi-stage-builds)
 		6.	[Why isn't there a Windows equivalent of `docker-entrypoint.sh`?](#why-isnt-there-a-windows-equivalent-of-docker-entrypointsh)
+		7.	[Can I use a bot to make my image update PRs?](#can-i-use-a-bot-to-make-my-image-update-prs)
 	4.	[Image Usage](#image-usage)
 		1.	[`--link` is deprecated!](#--link-is-deprecated)
 
