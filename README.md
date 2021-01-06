@@ -32,9 +32,9 @@ As stewards of the official images and maintainers of many images ourselves, we 
 
 ### What do you mean by "Official"?
 
-This question is so common it's answered in our primary repository!
+The name of this program was chosen in an attempt to reflect that upstream-first focus (although in hindsight, it's clear that it was a choice with some amount of confusion potential for which we're sorry). 
 
-See [the answer in the readme of the `github.com/docker-library/official-images` repository](https://github.com/docker-library/official-images#what-do-you-mean-by-official).
+This question is so common it's answered in our primary repository! See [the answer in the readme of the `github.com/docker-library/official-images` repository](https://github.com/docker-library/official-images#what-do-you-mean-by-official).
 
 ### An image's source changed in Git, now what?
 
