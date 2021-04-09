@@ -42,19 +42,19 @@ Let's walk through the full lifecycle of a change to an image to help explain th
 
 1.	a change gets committed to the relevant image source Git repository (either via direct commit, PR, or [some automated process](https://doi-janky.infosiftr.net/job/update.sh/) -- somehow some change is committed to the Git repository for the image source)
 
-	-	for [`golang`](https://hub.docker.com/_/golang), that would be a commit to [the `github.com/docker-library/golang` repository](https://github.com/docker-library/golang), such as [a9171b (the update to Go 1.12.6)](https://github.com/docker-library/golang/commit/a9171b851ba926f2979e8c711d25faa025194def)
+	-	for [`golang`](https://hub.docker.com/_/golang), that would be a commit to [the `github.com/docker-library/golang` repository](https://github.com/docker-library/golang), such as [f12c995 (the update to Go 1.16.3)](https://github.com/docker-library/golang/commit/f12c995e27fef88ccb984605ab4748737ae3a778)
 
 2.	a PR to the relevant `library/xxx` manifest file is created against https://github.com/docker-library/official-images (which is the source-of-truth for the official images program as a whole)
 
-	-	for [a9171b](https://github.com/docker-library/golang/commit/a9171b851ba926f2979e8c711d25faa025194def), that PR would be [docker-library/official-images#6070](https://github.com/docker-library/official-images/pull/6070) ([changing `library/golang` within that repository](https://github.com/docker-library/official-images/pull/6070/files) to point to the updated commits from [the `github.com/docker-library/golang` repository](https://github.com/docker-library/golang) and updating `Tags:` references if applicable)
+	-	for [f12c995](https://github.com/docker-library/golang/commit/f12c995e27fef88ccb984605ab4748737ae3a778), that PR would be [docker-library/official-images#9904](https://github.com/docker-library/official-images/pull/9904) ([changing `library/golang` within that repository](https://github.com/docker-library/official-images/pull/9904/files) to point to the updated commits from [the `github.com/docker-library/golang` repository](https://github.com/docker-library/golang) and updating `Tags:` references if applicable)
 
 3.	that PR and a full diff of the actual `Dockerfile` and related [build context](https://docs.docker.com/engine/reference/commandline/build/#extended-description) files are then reviewed by [the official images maintainers](https://github.com/docker-library/official-images/blob/master/MAINTAINERS)
 
-	-	for [docker-library/official-images#6070](https://github.com/docker-library/official-images/pull/6070), that can be seen in [the "Diff:" comment](https://github.com/docker-library/official-images/pull/6070#issuecomment-501305092)
+	-	for [docker-library/official-images#9904](https://github.com/docker-library/official-images/pull/9904), that can be seen in [the "Diff:" comment](https://github.com/docker-library/official-images/pull/9904#issuecomment-812221459)
 
-4.	a basic build test is produced, typically on `amd64` (to ensure that it will likely build properly on the real build servers if accepted, and to run [a small series of official images tests](https://github.com/docker-library/official-images/tree/master/test) against the built image)
+4.	a basic build test is produced (by GitHub Actions) on `amd64` (to ensure that it will likely build properly on the real build servers if accepted, and to run [a small series of official images tests](https://github.com/docker-library/official-images/tree/master/test) against the built image)
 
-	-	for [docker-library/official-images#6070](https://github.com/docker-library/official-images/pull/6070), that can be seen in [the build test comment](https://github.com/docker-library/official-images/pull/6070#issuecomment-501305150)
+	-	for [docker-library/official-images#9904](https://github.com/docker-library/official-images/pull/9904), that can be seen in [the "16 checks passed"](https://github.com/docker-library/official-images/pull/9904#event-4543748220)
 
 5.	once merged, [the official images build infrastructure](#how-are-images-built-especially-multiarch) will pick up the changes and build and push to the relevant per-architecture repositories (`amd64/xxx`, `arm64v8/xxx`, etc)
 
@@ -62,7 +62,7 @@ Let's walk through the full lifecycle of a change to an image to help explain th
 
 6.	after those jobs push updated artifacts to the architecture-specific repositories ([`amd64/xxx`](https://hub.docker.com/u/amd64), [`arm64v8/xxx`](https://hub.docker.com/u/arm64v8), etc), [a separate job](https://doi-janky.infosiftr.net/job/put-shared/) collects those updates into ["index" objects](https://github.com/opencontainers/image-spec/blob/v1.0.1/image-index.md) (also known as ["manifest lists"](https://docs.docker.com/registry/spec/manifest-v2-2/#manifest-list)) under [`library/xxx`](https://hub.docker.com/u/library) (which is [the "default" namespace within Docker](https://github.com/docker/docker-ce/blob/v18.09.6/components/engine/vendor/github.com/docker/distribution/reference/normalize.go))
 
-	-	for [`golang`](https://hub.docker.com/_/golang), that would be [the `put-shared/light` job](https://doi-janky.infosiftr.net/job/put-shared/job/light/), because it is not [a "heavy hitter"](https://github.com/docker-library/official-images/blob/master/heavy-hitters.txt)
+	-	for [`golang`](https://hub.docker.com/_/golang), that would be [the `put-shared/light/golang` job](https://doi-janky.infosiftr.net/job/put-shared/job/light/job/golang/)
 
 For images [maintained by the docker-library team](https://github.com/docker-library), we typically include a couple useful scripts in the repository itself, like `./update.sh` and `./generate-stackbrew-library.sh`, which help with automating simple version bumps via `Dockerfile` templating, and generating the contents of the `library/xxx` manifest file, respectively. [We also have infrastructure which performs those version bumps along with a build and test](https://doi-janky.infosiftr.net/job/update.sh/) and commits them directly to the relevant image repository (which is exactly how [the illustrative `golang` a9171b commit](https://github.com/docker-library/golang/commit/a9171b851ba926f2979e8c711d25faa025194def) referenced above was created).
 
