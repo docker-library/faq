@@ -123,6 +123,10 @@ Though not every CVE is removed from the images, we take CVEs seriously and try 
 
 -	The listed CVE is a false positive
 
+	-	In order to provide stability, most OS distributions take the fix for a security flaw out of the most recent version of the upstream software package and apply that fix to an older version of the package (known as backporting).
+
+		e.g., [CVE-2020-8169](https://nvd.nist.gov/vuln/detail/CVE-2020-8169) shows that `curl` is flawed in versions `7.62.0` though `7.70.0` and so is fixed in `7.71.0`. The version that has the fix applied in Debian Buster is `7.64.0-4+deb10u2` (see [security-tracker.debian.org](https://security-tracker.debian.org/tracker/CVE-2020-8169) and [DSA-4881-1](https://www.debian.org/security/2021/dsa-4881)).
+
 	The security scanners can't reliably check for CVEs, so it uses heuristics to determine whether an image is vulnerable. Those heuristics fail to take some factors into account:
 
 	-	Is the image affected by the CVE at all? It might not be possible to trigger the vulnerability at all with this image.
