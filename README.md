@@ -76,6 +76,7 @@ The actual infrastructure is a combination of machines provided by our generous 
 -	`arm32vN`, `arm64v8`: [WorksOnArm](https://github.com/WorksOnArm/cluster/issues/7)  
 -	`mips64le`: [Loongson](http://www.loongson.cn/)
 -	`ppc64le`, `s390x`: [IBM](https://www.ibm.com/)
+-	`riscv64`: [Debian](https://www.debian.org/) and [Tianon](https://tianon.xyz)
 
 For a more complete view of the full image change/publishing process, see ["An image's source changed in Git, now what?"](#an-images-source-changed-in-git-now-what) above.
 
