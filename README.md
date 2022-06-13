@@ -32,7 +32,7 @@ As stewards of the official images and maintainers of many images ourselves, we 
 
 ### What do you mean by "Official"?
 
-The name of this program was chosen in an attempt to reflect our upstream-first focus (although in hindsight, it's clear that it was a choice with some amount of confusion potential for which we're sorry). 
+The name of this program was chosen in an attempt to reflect our upstream-first focus (although in hindsight, it's clear that it was a choice with some amount of confusion potential for which we're sorry).
 
 See [the readme of the `github.com/docker-library/official-images` repository](https://github.com/docker-library/official-images#what-are-official-images) for a more verbose overview of the program.
 
@@ -79,6 +79,14 @@ The actual infrastructure is a combination of machines provided by our generous 
 -	`riscv64`: [Debian](https://www.debian.org/) and [Tianon](https://tianon.xyz)
 
 For a more complete view of the full image change/publishing process, see ["An image's source changed in Git, now what?"](#an-images-source-changed-in-git-now-what) above.
+
+### Inclusion Criteria
+
+See ["What are 'Official Images'?" in the main project repository](https://github.com/docker-library/official-images#what-are-official-images) for a high-level overview of the focus and goals of the project in general.
+
+Per [the "New Image Checklist"](https://github.com/docker-library/official-images/blob/master/NEW-IMAGE-CHECKLIST.md) (which is used to roughly track status during "New Image" reviews), one of the primary determinations we try to make is whether the image being proposed is "generally useful" and whether the software itself is "reasonably popular" and/or "solves a particular use case well" (to help focus our review bandwidth on things that will be helpful to as large a set of users as possible).
+
+There are also specific `Dockerfile` writing guidelines which can be found in [the "Review Guidelines" section of our documentation](https://github.com/docker-library/official-images#review-guidelines), which is used as a basis for a lot of our review process.
 
 ### What is `bashbrew`? Where can I download it?
 
