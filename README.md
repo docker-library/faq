@@ -119,7 +119,7 @@ The "Simple Tags" enable `docker run mongo:4.0-xenial` to "do the right thing" a
 
 ### Why does my security scanner show that an image has CVEs?
 
-Though not every CVE is removed from the images, we take CVEs seriously and try to ensure that images contain the most up-to-date packages available within a reasonable time frame. For many of the Official Images, a security scanner, like [Docker Security Scanning](https://docs.docker.com/docker-hub/official_images/#official-image-vulnerability-scanning) or [Clair](https://github.com/coreos/clair) might show CVEs, which can happen for a variety of reasons:
+Though not every CVE is removed from the images, we take CVEs seriously and try to ensure that images contain the most up-to-date packages available within a reasonable time frame. For many of the Official Images, a security analyzer, like [Docker Scout](https://docs.docker.com/scout/) or [Clair](https://github.com/coreos/clair) might show CVEs, which can happen for a variety of reasons:
 
 -	The CVE has not been addressed in that particular image
 
@@ -136,6 +136,10 @@ Though not every CVE is removed from the images, we take CVEs seriously and try 
 	-	In order to provide stability, most OS distributions take the fix for a security flaw out of the most recent version of the upstream software package and apply that fix to an older version of the package (known as backporting).
 
 		e.g., [CVE-2020-8169](https://nvd.nist.gov/vuln/detail/CVE-2020-8169) shows that `curl` is flawed in versions `7.62.0` though `7.70.0` and so is fixed in `7.71.0`. The version that has the fix applied in Debian Buster is `7.64.0-4+deb10u2` (see [security-tracker.debian.org](https://security-tracker.debian.org/tracker/CVE-2020-8169) and [DSA-4881-1](https://www.debian.org/security/2021/dsa-4881)).
+
+	- The binary or library is not vulnerable because the vulnerable code is never executed. Security solutions make the assumption that if a dependency has a vulnerability, then the binary or library using the dependency is also vulnerable. This correctly reports vulnerabilities, but this simple approach can also lead to many false positives. It can be improved by using other tools to detect if the vulnerable functions are used. [`govulncheck`](https://pkg.go.dev/golang.org/x/vuln/cmd/govulncheck) is one such tool made for Go based binaries.
+
+		e.g., [CVE-2023-28642](https://nvd.nist.gov/vuln/detail/CVE-2023-28642) is a vulnerability in runc less than version `1.1.5` but shows up when scanning the [`gosu`](https://github.com/tianon/gosu) 1.16 binary since runc `1.1.0` is a dependency. Running `govulncheck` against `gosu` shows that it does not use any vulnerable runc functions.
 
 	The security scanners can't reliably check for CVEs, so it uses heuristics to determine whether an image is vulnerable. Those heuristics fail to take some factors into account:
 
