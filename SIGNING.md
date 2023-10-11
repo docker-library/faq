@@ -61,7 +61,7 @@ Docker is using OpenPubKey to sign DOI attestations on GitHub Actions, but is no
 ​
 ## Can I use OpenPubkey to sign my own images on GitHub?
 ​
-We recommend you do not use OpenPubkey to signed images for production use yet. 
+We recommend you do not use OpenPubkey to signed images for production use yet.
 
 
 That said, we hope that Docker’s GitHub Image Build Action will default to signing with OpenPubkey at some point, so until then, a small change to your Actions configuration will be necessary if you do want to give it a try (i.e. [https://github.com/openpubkey/demo/blob/main/.github/workflows/docker-build.yaml#L37](https://github.com/openpubkey/demo/blob/main/.github/workflows/docker-build.yaml#L37) to include the updated buildkit builder)
@@ -72,7 +72,7 @@ We recommend you do not use OpenPubkey to sign images for production use yet. Ho
 ​
 ## How do I verify image signatures once GitHub Actions has rotated its OIDC signing keys?
 ​
-Docker will maintain a log of historical GitHub Actions OIDC public keys so that signatures created using OpenPubkey on GitHub Actions can be verified after rotation.
+Docker will maintain a log of historical GitHub Actions OIDC public keys in TUF so that signatures created using OpenPubkey on GitHub Actions can be verified after rotation. Because you will necessarily be trusting Docker's TUF root, you will be trusting Docker to maintain an accurate history of these keys. It is simple for Docker and the communit to monitor this log and detect issues with it.
 ​
 ## What if compromised DOIs are signed on Docker’s behalf?
 ​
