@@ -76,7 +76,7 @@ Docker will maintain a log of historical GitHub Actions OIDC public keys so that
 ​
 ## What if compromised DOIs are signed on Docker’s behalf?
 ​
-The image build GitHub Action will be logging all signatures to a Transparency Log. This enables Docker and the community to detect this. Should specific images be identified as compromised, they will be block-listed in Docker’s TUF root so that using those images will be disallowed.
+The image build GitHub Action will be logging all signatures to a Transparency Log. This enables Docker and the community to detect this. Should specific images be identified as compromised, they can be block-listed in Docker’s TUF root so that using those images will be disallowed.
 ​
 ## What if an artifact upstream was compromised?
 ​
