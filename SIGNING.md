@@ -47,7 +47,7 @@ The Update Framework (**TUF**) helps developers maintain the security of softwar
 ​
 ## Is Docker using a Transparency Log?
 ​
-Docker’s DOI build GitHub Actions will log all DOI signatures to a public Transparency Log. This will enable Docker and the Community to monitor the DOI signing process to detect any unauthorized signing activity.
+The GitHub Action that builds DOI will log all DOI signatures to a public Transparency Log. This will enable Docker and the Community to monitor the DOI signing process to detect any unauthorized signing activity.
 ​
 Transparency Logs are immutable, tamper-resistant ledgers typically based on Merkle trees.
 ​
