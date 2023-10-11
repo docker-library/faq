@@ -1,6 +1,6 @@
 # Docker Official Image Signing based on OpenPubkey and TUF
 
-This is a list of frequently asked questions related to the new image signing approach based on [OpenPubkey](https://github.com/openpubkey/) and [TUF](https://theupdateframework.io/) as announced at [DockerCon 23](https://github.com/openpubkey/)
+This is a list of frequently asked questions related to the new image signing approach based on [OpenPubkey](https://github.com/openpubkey/) and [TUF](https://theupdateframework.io/) as announced at [DockerCon 23](https://www.dockercon.com/2023/session/1777197/building-the-software-supply-chain-on-docker-official-images)
 
 ## Can I sign and verify my own images with Docker's signing solution today?
 ​
@@ -30,11 +30,11 @@ Docker hopes that technologies like TUF, Git, OIDC, Transparency Logs, OpenPubke
 ​
 ## What is OpenPubkey?
 ​
-[OpenPubkey](https://github.com/openpubkey) is a Linux Foundation project that enables binding of ODIC identities to ephemeral signing keys. OpenPubkey is an integral part of the new Docker Official Images attestation signing and verification story, along with GitHub Actions, The Update Framework (TUF), and Transparency Logs.
+[OpenPubkey](https://github.com/openpubkey/openpubkey) is a Linux Foundation project that enables binding of ODIC identities to ephemeral signing keys. OpenPubkey is an integral part of the new Docker Official Images attestation signing and verification story, along with GitHub Actions, The Update Framework (TUF), and Transparency Logs.
 ​
 ## How does TUF fit in with Docker’s DOI signing solution?
 ​
-Docker is planning on using TUF to distribute Trust Policy and updates to verification code to clients (e.g., `docker` CLI). Trust Policy includes:
+Docker is planning on using TUF to distribute Trust Policy and updates to verification libraries to clients (e.g., `docker` CLI). Trust Policy includes:
 ​
 * Which attestations should be present on DOI (i.e., SBOM and provenance)
 * Which identities should have signed the above attestations
@@ -53,7 +53,7 @@ Transparency Logs are immutable, tamper-resistant ledgers typically based on Mer
 ​
 [SigStore’s Rekor](https://github.com/sigstore/rekor) is a good example of how Transparency Logs are used in software supply chain security.
 ​
-Web PKI uses Transparency Logs to monitor SSL certificate issuance (see [Certificate Transparency](https://certificate.transparency.dev/)).
+Web PKI uses Transparency Logs to monitor TLS certificate issuance (see [Certificate Transparency](https://certificate.transparency.dev/)).
 ​
 ## How does OpenPubkey fit in with Docker’s new DOI signing solution?
 ​
@@ -68,7 +68,7 @@ That said, we plan to update the [_Build and push Docker images_ GitHub Action](
 ​
 ## Can I use OpenPubkey to sign images on-prem/using my own OIDC provider?
 ​
-We recommend you do not use OpenPubkey to sign images for production use yet. However, we hope to get OpenPubkey signing integrated into BuildKit (and thus `docker build`) at some point soon. Until then, there is a fork you can try: [https://github.com/openpubkey/buildkit](https://github.com/openpubkey/buildkit). Currently this is tied to GitHub Actions OIDC provider, but we intend to quickly add support for other OIDC providers, including those that are not necessarily publicly available. In this case, you will also need to maintain an internal log of OIDC “public” keys for signature verification. You may want to consider maintaining your own TUF root for internal policy distribution, in which case, this is a good place to maintain a log of OIDC public keys.
+We recommend you do not use OpenPubkey to sign images for production use yet. However, we plan to get OpenPubkey signing integrated into BuildKit (and thus `docker build`) at some point soon. Until then, there is a fork you can try: [https://github.com/openpubkey/buildkit](https://github.com/openpubkey/buildkit). Currently this is tied to GitHub Actions OIDC provider, but we intend to quickly add support for other OIDC providers, including those that are not necessarily publicly available. In this case, you will also need to maintain an internal log of OIDC “public” keys for signature verification. You may want to consider maintaining your own TUF root for internal policy distribution, in which case, this is a good place to maintain a log of OIDC public keys.
 ​
 ## How do I verify image signatures once GitHub Actions has rotated its OIDC signing keys?
 ​
