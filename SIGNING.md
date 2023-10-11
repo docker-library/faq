@@ -61,7 +61,7 @@ Docker is using OpenPubKey to sign DOI attestations on GitHub Actions, but is no
 ​
 ## Can I use OpenPubkey to sign my own images on GitHub?
 ​
-We recommend you do not use OpenPubkey to signed images for production use yet.
+We recommend you do not use OpenPubkey to sign images for production use yet.
 
 
 That said, we plan to update the [_Build and push Docker images_ GitHub Action](https://github.com/marketplace/actions/build-and-push-docker-images) to sign images with OpenPubkey by default. Until then, a small change to your GitHub Actions workflow will be necessary if you want to give it a try. See the [GitHub Actions workflow in the openpubkey/demo repository](https://github.com/openpubkey/demo/blob/b6d10590e5333378d91ff4f15bf63ae0bc0c9d28/.github/workflows/docker-build.yaml#L37-L40) for an example of how to do this.
