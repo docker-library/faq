@@ -30,7 +30,7 @@ Docker hopes that technologies like TUF, Git, OIDC, Transparency Logs, OpenPubke
 ​
 ## What is OpenPubkey?
 ​
-[OpenPubkey ](https://github.com/openpubkey) is a Linux Foundation project that enables binding of ODIC identities to ephemeral signing keys. OpenPubkey is an integral part of the new Docker Official Images attestation signing and verification story, along with GitHub Actions, The Update Framework (TUF), and Transparency Logs.
+[OpenPubkey](https://github.com/openpubkey) is a Linux Foundation project that enables binding of ODIC identities to ephemeral signing keys. OpenPubkey is an integral part of the new Docker Official Images attestation signing and verification story, along with GitHub Actions, The Update Framework (TUF), and Transparency Logs.
 ​
 ## How does TUF fit in with Docker’s DOI signing solution?
 ​
