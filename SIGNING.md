@@ -80,7 +80,7 @@ The image build GitHub Action will be logging all signatures to a Transparency L
 ​
 ## What if an artifact upstream was compromised?
 ​
-As above, should specific images be identified as compromised or containing malicious code, they will be block-listed in Docker’s TUF root so that using those images will be disallowed.
+As above, should specific images be identified as compromised or containing malicious code, they can be block-listed in Docker’s TUF root so that using those images will be disallowed.
 ​
 ## What does this mean for Notary (Docker Content Trust)?
 ​
