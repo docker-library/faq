@@ -49,7 +49,7 @@ The Update Framework (**TUF**) helps developers maintain the security of softwar
 ​
 Docker’s DOI build GitHub Actions will log all DOI signatures to a public Transparency Log. This will enable Docker and the Community to monitor the DOI signing process to detect any unauthorized signing activity.
 ​
-Transparency Logs are immutable tamper resistant ledgers typically based on Merkle trees.
+Transparency Logs are immutable, tamper-resistant ledgers typically based on Merkle trees.
 ​
 [SigStore’s Rekor](https://github.com/sigstore/rekor) is a good example of how Transparency Logs are used in software supply chain security.
 ​
