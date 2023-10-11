@@ -11,7 +11,7 @@ Take a look at the [demo](https://github.com/openpubkey/demo).
 ​
 ## How does OpenPubkey compare to Sigstore?
 ​
-OpenPubkey cannot really be compared to Sigstore. Sigstore is an end-to-end artifact signing solution, whereas OpenPubkey only binds public keys to OIDC identities for use as part of a larger signing solution. OpenPubkey can be complementary to Sigstore, for example [https://github.com/sigstore/fulcio/issues/1056](https://github.com/sigstore/fulcio/issues/1056).
+OpenPubkey cannot really be compared to Sigstore. Sigstore is an end-to-end artifact signing solution, whereas OpenPubkey only binds public keys to OIDC identities for use as part of a larger signing solution. However OpenPubkey could be complementary to Sigstore or other systems, [for example](https://github.com/sigstore/fulcio/issues/1056).
 ​
 ## Why isn’t Docker using Sigstore for signing Docker Official Images?
 ​
