@@ -84,4 +84,4 @@ As above, should specific images be identified as compromised or containing mali
 ​
 ## What does this mean for Notary (Docker Content Trust)?
 ​
-We are currently in the process of getting feedback from the wider community on our approach for signing images with OpenPubkey. Once we are confident that OpenPubkey is a stable approach, we will start the process of deprecating the use of Notary and working with users that currently depend on Notary to migrate over to using OpenPubkey if they wish to do so. We will work to make sure this transition is as simple as possible.
+We are currently in the process of getting feedback from the wider community on our approach for signing images with OpenPubkey. Once we are confident that OpenPubkey is a stable approach, we intend to start deprecating the use of Notary and working with users that currently depend on Notary to migrate over to using OpenPubkey if they wish to do so. We will work to make sure this transition is as simple as possible.
