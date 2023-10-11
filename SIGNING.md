@@ -72,7 +72,7 @@ We recommend you do not use OpenPubkey to sign images for production use yet. Ho
 ​
 ## How do I verify image signatures once GitHub Actions has rotated its OIDC signing keys?
 ​
-Docker will maintain a log of historical GitHub Actions OIDC public keys in TUF so that signatures created using OpenPubkey on GitHub Actions can be verified after rotation. Because you will necessarily be trusting Docker's TUF root, you will be trusting Docker to maintain an accurate history of these keys. It is simple for Docker and the communit to monitor this log and detect issues with it.
+Docker will maintain a log of historical GitHub Actions OIDC public keys in TUF so that signatures created using OpenPubkey on GitHub Actions can be verified after rotation. Because you will necessarily be trusting Docker's TUF root, you will be trusting Docker to maintain an accurate history of these keys. It is simple for Docker and the community to monitor this log and detect issues with it.
 ​
 ## What if compromised DOIs are signed on Docker’s behalf?
 ​
