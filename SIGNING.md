@@ -7,7 +7,7 @@ This is a list of frequently asked questions related to the new image signing ap
 We do not recommend you use any of this in production yet, but we do encourage you to give it a try and give us feedback.
 
 
-Take a look at the [demo](https://github.com/openpubkey/demo)
+Take a look at the [demo](https://github.com/openpubkey/demo).
 ​
 ## How does OpenPubkey compare to Sigstore?
 ​
