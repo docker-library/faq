@@ -4,8 +4,7 @@ This is a list of frequently asked questions related to the new image signing ap
 
 ## Can I sign and verify my own images with Docker's signing solution today?
 ​
-We do not recommend you use any of this in production yet, but we do encourage you to give it a try and give us feedback.
-
+We do not recommend you use any of this in production yet, but we do encourage you to give it a try and give us feedback over in the [#docker-security](https://dockercommunity.slack.com/archives/C25EFCXMK) Community Slack channel.
 
 Take a look at the [demo](https://github.com/openpubkey/demo).
 ​
