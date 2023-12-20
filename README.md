@@ -105,6 +105,8 @@ See [the "Library definition files" section](https://github.com/docker-library/o
 
 ### What's the difference between "Shared" and "Simple" tags?
 
+Short version: "simple tags" will usually be a single platform (Windows vs Linux) and "shared tags" will be a combination of multiple platforms (so might have vastly different interface/behavior depending on which platform they're run from, but overall should represent roughly the same thing).
+
 Some images have separated "Simple Tags" and "Shared Tags" sections under "Supported tags and respective `Dockerfile` links" (see [the `mongo` image](https://hub.docker.com/_/mongo/) for an example).
 
 "Simple Tags" are instances of a "single" Linux or Windows image. It is often a manifest list that can include the same image built for other architectures; for example, `mongo:4.0-xenial` currently has images for `amd64` and `arm64v8`. The Docker daemon is responsible for picking the appropriate image for the host architecture.
