@@ -121,7 +121,7 @@ The "Simple Tags" enable `docker run mongo:4.0-xenial` to "do the right thing" a
 
 ### Why does my security scanner show that an image has CVEs?
 
-Though not every CVE is removed from the images, we take CVEs seriously and try to ensure that images contain the most up-to-date packages available within a reasonable time frame. For many of the Official Images, a security analyzer, like [Docker Scout](https://docs.docker.com/scout/) or [Clair](https://github.com/coreos/clair) might show CVEs, which can happen for a variety of reasons:
+Though not every CVE is removed from the images, we take CVEs seriously and try to ensure that images contain the most up-to-date packages available within a reasonable time frame. For many of the Official Images, a security analyzer might show CVEs, which can happen for a variety of reasons:
 
 -	The CVE has not been addressed in that particular image
 
