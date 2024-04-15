@@ -73,8 +73,7 @@ Images are built via a [semi-complex Jenkins infrastructure](https://doi-janky.i
 
 The actual infrastructure is a combination of machines provided by our generous donors:
 
--	`amd64`, `arm64v8`, Jenkins nodes: [Docker, Inc.](https://www.docker.com/)
--	`arm32vN`, `i386`: [Oracle Cloud Infrastructure](https://www.oracle.com/cloud/)
+-	`amd64`, `arm64v8`, `arm32vN`, `i386`, Jenkins nodes: [Docker, Inc.](https://www.docker.com/)
 -	`mips64le`: [Loongson](http://www.loongson.cn/)
 -	`ppc64le`, `s390x`: [IBM](https://www.ibm.com/)
 -	`riscv64`: [Debian](https://www.debian.org/) and [Tianon](https://tianon.xyz)
