@@ -224,7 +224,7 @@ Sure! Just a few simple guidelines/requests:
 	-	multiple times per week is definitely "too often"
 	-	once every week is a bit on the boundary, but acceptable
 	-	serious security issues override this
-2.	make sure the PR @-references any/all human maintainers so you see our review comments
+2.	make sure the PR @-references any/all human maintainers so you see our review comments and/or check for CI failures
 3.	only one PR at a time, please (the easiest way to accomplish this is to use the same branch name every time)
 4.	base every new PR off the `master` branch from https://github.com/docker-library/official-images, *not* from your fork (especially important if we squash-merge your PRs)
 
