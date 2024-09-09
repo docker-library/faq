@@ -10,3 +10,4 @@
 - Why not Ubuntu, CentOS, ClefOS, etc? (https://github.com/docker-library/python/issues/61#issuecomment-282450114)
 - why order tags from most specific to least
 - Windows Nano Server > 2016
+- `SOURCE_DATE_EPOCH`: https://github.com/docker-library/httpd/issues/266#issuecomment-2338737947
