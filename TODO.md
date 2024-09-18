@@ -11,3 +11,4 @@
 - why order tags from most specific to least
 - Windows Nano Server > 2016
 - `SOURCE_DATE_EPOCH`: https://github.com/docker-library/httpd/issues/266#issuecomment-2338737947
+- process supervisor: https://github.com/docker-library/official-images/pull/17310#issuecomment-2359548715
