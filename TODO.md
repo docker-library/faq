@@ -12,4 +12,4 @@
 - Windows Nano Server > 2016
 - `SOURCE_DATE_EPOCH`: https://github.com/docker-library/httpd/issues/266#issuecomment-2338737947
 - process supervisor: https://github.com/docker-library/official-images/pull/17310#issuecomment-2359548715
-- OCI media types: https://github.com/caddyserver/caddy-docker/issues/376#issuecomment-2445267687
+- Docker media types inside OCI index: https://github.com/caddyserver/caddy-docker/issues/376#issuecomment-2445267687
