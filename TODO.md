@@ -13,3 +13,4 @@
 - `SOURCE_DATE_EPOCH`: https://github.com/docker-library/httpd/issues/266#issuecomment-2338737947
 - process supervisor: https://github.com/docker-library/official-images/pull/17310#issuecomment-2359548715
 - Docker media types inside OCI index: https://github.com/caddyserver/caddy-docker/issues/376#issuecomment-2445267687
+- schema1 images: https://github.com/tianon/oci-schema1, https://github.com/docker-library/mysql/issues/1096#issuecomment-2479932568
