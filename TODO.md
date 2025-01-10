@@ -15,3 +15,4 @@
 - Docker media types inside OCI index: https://github.com/caddyserver/caddy-docker/issues/376#issuecomment-2445267687
 - schema1 images: https://github.com/tianon/oci-schema1, https://github.com/docker-library/mysql/issues/1096#issuecomment-2479932568
 - arch-specific namespaces: https://github.com/docker-library/official-images/issues/17896#issuecomment-2479950192
+- `kdevtmpfsi` / "malware found in image": https://github.com/docker-library/postgres/issues/1307#issuecomment-2584509464, https://github.com/docker-library/postgres/issues/1054#issuecomment-1447091521
