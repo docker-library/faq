@@ -12,7 +12,8 @@
 - Windows Nano Server > 2016
 - `SOURCE_DATE_EPOCH`: https://github.com/docker-library/httpd/issues/266#issuecomment-2338737947
 - process supervisor: https://github.com/docker-library/official-images/pull/17310#issuecomment-2359548715
-- Docker media types inside OCI index: https://github.com/caddyserver/caddy-docker/issues/376#issuecomment-2445267687
+- Docker media types inside OCI index: https://github.com/caddyserver/caddy-docker/issues/376#issuecomment-2445267687, https://github.com/docker-library/python/issues/953#issuecomment-2305219582
 - schema1 images: https://github.com/tianon/oci-schema1, https://github.com/docker-library/mysql/issues/1096#issuecomment-2479932568
 - arch-specific namespaces: https://github.com/docker-library/official-images/issues/17896#issuecomment-2479950192
 - `kdevtmpfsi` / "malware found in image": https://github.com/docker-library/postgres/issues/1307#issuecomment-2584509464, https://github.com/docker-library/postgres/issues/1054#issuecomment-1447091521
+- media types: "(OCI) v1" vs "(Docker) v2": https://github.com/docker-library/postgres/discussions/1329#discussioncomment-12342451, https://github.com/docker-library/official-images/issues/14938#issuecomment-1607883130, https://github.com/docker-library/python/issues/936#issuecomment-2221667227
