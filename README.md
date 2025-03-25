@@ -57,7 +57,7 @@ Let's walk through the full lifecycle of a change to an image to help explain th
 
 	-	for [docker-library/official-images#18671](https://github.com/docker-library/official-images/pull/18671), that can be seen in [the "9 checks"](https://github.com/docker-library/official-images/pull/18671/checks)
 
-5.	once merged, [the docker-library/meta repository](https://github.com/docker-library/meta) becomes the source-of-truth for the build lifecycle/tracking, and an automated process updates `sources.json` there with the newly merged metadata / "source" records
+5.	once merged, [an automated process](https://github.com/docker-library/meta-scripts/blob/main/Jenkinsfile.meta) updates `sources.json` in [the docker-library/meta repository](https://github.com/docker-library/meta), which is the source-of-truth for the build lifecycle/tracking, with the newly merged metadata / "source" records
 
 	-	for [docker-library/official-images#18671](https://github.com/docker-library/official-images/pull/18671), that can be seen in [5f1c511](https://github.com/docker-library/meta/commit/5f1c51193df1c10291c71428cbf4decc3aee3b54#diff-dec510d864246250be6cc8d33d2f9040f88ee65dfa31ee3b0e98b4e4ea1fe291)
 
@@ -80,6 +80,8 @@ Let's walk through the full lifecycle of a change to an image to help explain th
 10.	as a final step, each of those per-architecture namespaces is combined to form the [OCI image indexes](https://github.com/opencontainers/image-spec/blob/v1.1.1/image-index.md) that get pushed into [the `library/xxx` repositories](https://hub.docker.com/u/library) (which is the "default" namespace within Docker for unprefixed image references)
 
 	-	for our `docker` example, that's [the `docker` repository](https://hub.docker.com/_/docker)
+
+Most of this complexity is to ensure we don't over-build (new builds should only be generated when we're certain something would change), both for conserving effort on the build side and for reducing unnecessary "rebuild churn" downstream.
 
 For images [maintained by the docker-library team](https://github.com/docker-library), we typically include a couple useful scripts in the repository itself, like `./update.sh` and `./generate-stackbrew-library.sh`, which help with automating simple version bumps via `Dockerfile` templating, and generating the contents of the `library/xxx` manifest file, respectively. [We also have infrastructure which performs those version bumps along with a build and test](https://doi-janky.infosiftr.net/job/update.sh/) and commits them directly to the relevant image repository (which is exactly how [the illustrative `docker` b8a0cd4 commit](https://github.com/docker-library/docker/commit/b8a0cd47873fbc6f6f3a58eee18ebeb79f7376e0) referenced above was created).
 
