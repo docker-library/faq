@@ -65,7 +65,7 @@ Let's walk through the full lifecycle of a change to an image to help explain th
 
 	-	for [docker-library/official-images#18671](https://github.com/docker-library/official-images/pull/18671), the (root layer) base image's builds are already up-to-date, so that can be seen in [5f1c511](https://github.com/docker-library/meta/commit/5f1c51193df1c10291c71428cbf4decc3aee3b54#diff-0dd25cfb6d62653a72244c025830222a17f690f3cc9788ea2638414b7976d08a) as well; notably, it does *not* include "build" records for second-level images like `docker:28.0.2-dind` (because it's `FROM docker:28-cli`, which is now not-yet-built and must be built before we can build `docker:28.0.2-dind`)
 
-7.	an automated process for each architecture will pick up those "build is needed" records from `builds.json`, build them, and push the result into [staging repositories in the `oisupport` namespace](https://hub.docker.com/u/oisupport?search=staging)
+7.	[an automated process](https://github.com/docker-library/meta-scripts/blob/main/Jenkinsfile.trigger) for each architecture will pick up those "build is needed" records from `builds.json`, build them, and push the result into [staging repositories in the `oisupport` namespace](https://hub.docker.com/u/oisupport?search=staging)
 
 	-	for `docker:28.0.2-cli` on `linux/amd64` from `b8a0cd4`, that is `oisupport/staging-amd64:41a0a036706fa08387b39dcf9ceea74737bf5a8946c47103048ecf4d05a99733`
 
@@ -73,7 +73,7 @@ Let's walk through the full lifecycle of a change to an image to help explain th
 
 	-	for our `docker` example, that can be seen in [aca51ca](https://github.com/docker-library/meta/commit/aca51ca4b9f6b5d20a432ede3ac4cbc5bf786bcb#diff-0dd25cfb6d62653a72244c025830222a17f690f3cc9788ea2638414b7976d08a) (both embedding resolved references to `oisupport/staging-amd64:41a0a036706fa08387b39dcf9ceea74737bf5a8946c47103048ecf4d05a99733` and new "build is needed" records for `docker:28.0.2-dind` on the same architecture now that the parent image is built/available)
 
-9.	a separate process takes those (now resolved explicitly in `builds.json`) "staging" builds and pushes them to the relevant per-architecture repositories (`amd64/xxx`, `arm64v8/xxx`, etc)
+9.	[a separate process](https://github.com/docker-library/meta-scripts/blob/main/Jenkinsfile.deploy) takes those (now resolved explicitly in `builds.json`) "staging" builds and pushes them to the relevant per-architecture repositories (`amd64/xxx`, `arm64v8/xxx`, etc)
 
 	-	for our `docker:28.0.2-cli` on `linux/amd64` example, that's [`amd64/docker:28.0.2-cli`](https://hub.docker.com/r/amd64/docker)
 
