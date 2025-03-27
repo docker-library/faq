@@ -39,41 +39,60 @@ See [the readme of the `github.com/docker-library/official-images` repository](h
 
 ### An image's source changed in Git, now what?
 
-Let's walk through the full lifecycle of a change to an image to help explain the process better. We'll use the [`golang`](https://hub.docker.com/_/golang) image as an example to help illustrate each step.
+Let's walk through the full lifecycle of a change to an image to help explain the process better. We'll use the [`docker`](https://hub.docker.com/_/docker) image as an example to help illustrate each step.
 
 1.	a change gets committed to the relevant image source Git repository (either via direct commit, PR, or [some automated process](https://doi-janky.infosiftr.net/job/update.sh/) -- somehow some change is committed to the Git repository for the image source)
 
-	-	for [`golang`](https://hub.docker.com/_/golang), that would be a commit to [the `github.com/docker-library/golang` repository](https://github.com/docker-library/golang), such as [f12c995 (the update to Go 1.16.3)](https://github.com/docker-library/golang/commit/f12c995e27fef88ccb984605ab4748737ae3a778)
+	-	for [`docker`](https://hub.docker.com/_/docker), that would be a commit to [the `github.com/docker-library/docker` repository](https://github.com/docker-library/docker), such as [b8a0cd4 (the update to Docker 28.0.2)](https://github.com/docker-library/docker/commit/b8a0cd47873fbc6f6f3a58eee18ebeb79f7376e0)
 
 2.	a PR to the relevant `library/xxx` manifest file is created against https://github.com/docker-library/official-images (which is the source-of-truth for the official images program as a whole)
 
-	-	for [f12c995](https://github.com/docker-library/golang/commit/f12c995e27fef88ccb984605ab4748737ae3a778), that PR would be [docker-library/official-images#9904](https://github.com/docker-library/official-images/pull/9904) ([changing `library/golang` within that repository](https://github.com/docker-library/official-images/pull/9904/files) to point to the updated commits from [the `github.com/docker-library/golang` repository](https://github.com/docker-library/golang) and updating `Tags:` references if applicable)
+	-	for [b8a0cd4](https://github.com/docker-library/docker/commit/b8a0cd47873fbc6f6f3a58eee18ebeb79f7376e0), that PR would be [docker-library/official-images#18671](https://github.com/docker-library/official-images/pull/18671) ([changing `library/docker` within that repository](https://github.com/docker-library/official-images/pull/18671/files) to point to the updated commits from [the `github.com/docker-library/docker` repository](https://github.com/docker-library/docker) and updating `Tags:` references if applicable)
 
 3.	that PR and a full diff of the actual `Dockerfile` and related [build context](https://docs.docker.com/engine/reference/commandline/build/#extended-description) files are then reviewed by [the official images maintainers](https://github.com/docker-library/official-images/blob/master/MAINTAINERS)
 
-	-	for [docker-library/official-images#9904](https://github.com/docker-library/official-images/pull/9904), that can be seen in [the "Diff:" comment](https://github.com/docker-library/official-images/pull/9904#issuecomment-812221459)
+	-	for [docker-library/official-images#18671](https://github.com/docker-library/official-images/pull/18671), that can be seen in [the "Diff:" comment](https://github.com/docker-library/official-images/pull/18671#issuecomment-2738425741)
 
 4.	a basic build test is produced (by GitHub Actions) on `amd64` (to ensure that it will likely build properly on the real build servers if accepted, and to run [a small series of official images tests](https://github.com/docker-library/official-images/tree/master/test) against the built image)
 
-	-	for [docker-library/official-images#9904](https://github.com/docker-library/official-images/pull/9904), that can be seen in [the "16 checks passed"](https://github.com/docker-library/official-images/pull/9904#event-4543748220)
+	-	for [docker-library/official-images#18671](https://github.com/docker-library/official-images/pull/18671), that can be seen in [the "9 checks"](https://github.com/docker-library/official-images/pull/18671/checks)
 
-5.	once merged, [the official images build infrastructure](#how-are-images-built-especially-multiarch) will pick up the changes and build and push to the relevant per-architecture repositories (`amd64/xxx`, `arm64v8/xxx`, etc)
+5.	once merged, [an automated process](https://github.com/docker-library/meta-scripts/blob/main/Jenkinsfile.meta) updates `sources.json` in [the docker-library/meta repository](https://github.com/docker-library/meta), which is the source-of-truth for the build lifecycle/tracking, with the newly merged metadata / "source" records
 
-	-	for [`golang`](https://hub.docker.com/_/golang), those per-architecture build jobs can be seen in [the "golang" view in the build infrastructure](https://doi-janky.infosiftr.net/job/multiarch/view/images/view/golang/)
+	-	for [docker-library/official-images#18671](https://github.com/docker-library/official-images/pull/18671), that can be seen in [5f1c511](https://github.com/docker-library/meta/commit/5f1c51193df1c10291c71428cbf4decc3aee3b54#diff-dec510d864246250be6cc8d33d2f9040f88ee65dfa31ee3b0e98b4e4ea1fe291)
 
-6.	after those jobs push updated artifacts to the architecture-specific repositories ([`amd64/xxx`](https://hub.docker.com/u/amd64), [`arm64v8/xxx`](https://hub.docker.com/u/arm64v8), etc), [a separate job](https://doi-janky.infosiftr.net/job/put-shared/) collects those updates into ["index" objects](https://github.com/opencontainers/image-spec/blob/v1.0.1/image-index.md) (also known as ["manifest lists"](https://docs.docker.com/registry/spec/manifest-v2-2/#manifest-list)) under [`library/xxx`](https://hub.docker.com/u/library) (which is [the "default" namespace within Docker](https://github.com/docker/docker-ce/blob/v18.09.6/components/engine/vendor/github.com/docker/distribution/reference/normalize.go))
+6.	assuming the necessary dependencies (`FROM` images) exist/are up-to-date for a given architecture, `builds.json` will be updated to include a "build" record that signifies a build is needed (and that it *can* be built)
 
-	-	for [`golang`](https://hub.docker.com/_/golang), that would be [the `put-shared/light/golang` job](https://doi-janky.infosiftr.net/job/put-shared/job/light/job/golang/)
+	-	for [docker-library/official-images#18671](https://github.com/docker-library/official-images/pull/18671), the (root layer) base image's builds are already up-to-date, so that can be seen in [5f1c511](https://github.com/docker-library/meta/commit/5f1c51193df1c10291c71428cbf4decc3aee3b54#diff-0dd25cfb6d62653a72244c025830222a17f690f3cc9788ea2638414b7976d08a) as well; notably, it does *not* include "build" records for second-level images like `docker:28.0.2-dind` (because it's `FROM docker:28-cli`, which is now not-yet-built and must be built before we can build `docker:28.0.2-dind`)
 
-For images [maintained by the docker-library team](https://github.com/docker-library), we typically include a couple useful scripts in the repository itself, like `./update.sh` and `./generate-stackbrew-library.sh`, which help with automating simple version bumps via `Dockerfile` templating, and generating the contents of the `library/xxx` manifest file, respectively. [We also have infrastructure which performs those version bumps along with a build and test](https://doi-janky.infosiftr.net/job/update.sh/) and commits them directly to the relevant image repository (which is exactly how [the illustrative `golang` f12c995 commit](https://github.com/docker-library/golang/commit/f12c995e27fef88ccb984605ab4748737ae3a778) referenced above was created).
+7.	[an automated process](https://github.com/docker-library/meta-scripts/blob/main/Jenkinsfile.trigger) for each architecture will pick up those "build is needed" records from `builds.json`, build them, and push the result into [staging repositories in the `oisupport` namespace](https://hub.docker.com/u/oisupport?search=staging)
+
+	-	for `docker:28.0.2-cli` on `linux/amd64` from `b8a0cd4`, that is `oisupport/staging-amd64:41a0a036706fa08387b39dcf9ceea74737bf5a8946c47103048ecf4d05a99733`
+
+8.	after those builds are completed, `builds.json` is again updated to include their references, and the next layer of builds is then added
+
+	-	for our `docker` example, that can be seen in [aca51ca](https://github.com/docker-library/meta/commit/aca51ca4b9f6b5d20a432ede3ac4cbc5bf786bcb#diff-0dd25cfb6d62653a72244c025830222a17f690f3cc9788ea2638414b7976d08a) (both embedding resolved references to `oisupport/staging-amd64:41a0a036706fa08387b39dcf9ceea74737bf5a8946c47103048ecf4d05a99733` and new "build is needed" records for `docker:28.0.2-dind` on the same architecture now that the parent image is built/available)
+
+9.	[a separate process](https://github.com/docker-library/meta-scripts/blob/main/Jenkinsfile.deploy) takes those (now resolved explicitly in `builds.json`) "staging" builds and pushes them to the relevant per-architecture repositories (`amd64/xxx`, `arm64v8/xxx`, etc)
+
+	-	for our `docker:28.0.2-cli` on `linux/amd64` example, that's [`amd64/docker:28.0.2-cli`](https://hub.docker.com/r/amd64/docker)
+
+10.	as a final step, each of those per-architecture namespaces is combined to form the [OCI image indexes](https://github.com/opencontainers/image-spec/blob/v1.1.1/image-index.md) that get pushed into [the `library/xxx` repositories](https://hub.docker.com/u/library) (which is the "default" namespace within Docker for unprefixed image references)
+
+	-	for our `docker` example, that's [the `docker` repository](https://hub.docker.com/_/docker)
+
+Most of this complexity is to ensure we don't over-build (new builds should only be generated when we're certain something would change), both for conserving effort on the build side and for reducing unnecessary "rebuild churn" downstream.
+
+For images [maintained by the docker-library team](https://github.com/docker-library), we typically include a couple useful scripts in the repository itself, like `./update.sh` and `./generate-stackbrew-library.sh`, which help with automating simple version bumps via `Dockerfile` templating, and generating the contents of the `library/xxx` manifest file, respectively. [We also have infrastructure which performs those version bumps along with a build and test](https://doi-janky.infosiftr.net/job/update.sh/) and commits them directly to the relevant image repository (which is exactly how [the illustrative `docker` b8a0cd4 commit](https://github.com/docker-library/docker/commit/b8a0cd47873fbc6f6f3a58eee18ebeb79f7376e0) referenced above was created).
 
 ### How are images built? (especially multiarch)
 
-Images are built via a [semi-complex Jenkins infrastructure](https://doi-janky.infosiftr.net/), and the sources for much of that can be found in [the `github.com/docker-library/oi-janky-groovy` repository](https://github.com/docker-library/oi-janky-groovy).
+Images are built via a [semi-complex Jenkins infrastructure](https://doi-janky.infosiftr.net/), and the sources for the bulk of the above processes can be found in [the `github.com/docker-library/meta-scripts` repository](https://github.com/docker-library/meta-scripts).
 
 The actual infrastructure is a combination of machines provided by our generous donors:
 
--	`amd64`, `arm64v8`, `arm32vN`, `i386`, Jenkins nodes: [Docker, Inc.](https://www.docker.com/)
+-	`amd64`, `i386`, `windows-amd64`: [Docker, Inc.](https://www.docker.com/) and [GitHub Actions](https://github.com/features/actions)
+-	`arm64v8`, `arm32vN`, Jenkins workers: [Docker, Inc.](https://www.docker.com/)
 -	`mips64le`: [Loongson](http://www.loongson.cn/)
 -	`ppc64le`, `s390x`: [IBM](https://www.ibm.com/)
 -	`riscv64`: [Debian](https://www.debian.org/) and [Tianon](https://tianon.xyz)
