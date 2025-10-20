@@ -194,7 +194,7 @@ Explicit health checks are not added to official images for a number of reasons,
 
 -	many users will have their own idea of what "healthy" means and credentials change over time making generic health checks hard to define
 -	after upgrading their images, current users will have extra unexpected load on their systems for healthchecks they don't necessarily need/want and may be unaware of
--	Kubernetes does not use Docker's heath checks (opting instead for separate [`liveness` and `readiness` probes](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/))
+-	Kubernetes does not use Docker's health checks (opting instead for separate [`liveness` and `readiness` probes](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/))
 -	sometimes things like databases will take too long to initialize, and a defined health check will often cause the orchestration system to prematurely kill the container ([docker-library/mysql#439 for instance](https://github.com/docker-library/mysql/issues/439))
 
 The [docker-library/healthcheck repository](https://github.com/docker-library/healthcheck) is to serve as an example for creating your own image derived from the prototypes present. They serve to showcase the best practices in creating your own healthcheck for your specific task and needs.
