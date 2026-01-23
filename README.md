@@ -21,6 +21,7 @@ As stewards of the official images and maintainers of many images ourselves, we 
 		2.	[Why do so many official images build from source?](#why-do-so-many-official-images-build-from-source)
 		3.	[`HEALTHCHECK`](#healthcheck)
 		4.	[OpenPGP / GnuPG Keys and Verification](#openpgp--gnupg-keys-and-verification)
+			1.	[How can I use a `KEYS` file for verifying PGP signatures?](#how-can-i-use-a-keys-file-for-verifying-pgp-signatures)
 		5.	[Multi-stage Builds](#multi-stage-builds)
 		6.	[Why isn't there a Windows equivalent of `docker-entrypoint.sh`?](#why-isnt-there-a-windows-equivalent-of-docker-entrypointsh)
 		7.	[Can I use a bot to make my image update PRs?](#can-i-use-a-bot-to-make-my-image-update-prs)
@@ -205,11 +206,54 @@ Ideally, images that require downloaded artifacts [should use some cryptographic
 
 The way we typically recommend image maintainers fetch those public keys to verify said artifacts is via `gpg --batch --keyserver hkps://keys.openpgp.org --recv-keys XXXXX` (where `XXXXX` gets replaced with the *full* key fingerprint, as in `97FC712E4C024BBEA48A61ED3A5CA953F73C700D`). This will use [the keys.openpgp.org service](https://keys.openpgp.org/about), which does require additional verification in order to be used in this way. If that additional verification is not possible/desirable for the keys in question, we recommend using `hkps://keyserver.ubuntu.com` instead (which is a more "classical" key service).
 
-Historically, we recommended the use of [a suitable server pool from `sks-keyservers.net`, but that service has since been shut down](http://web.archive.org/web/20220119094712/https://www.sks-keyservers.net/). See also [github.com/tianon/pgp-happy-eyeballs](https://github.com/tianon/pgp-happy-eyeballs), which is no longer recommended for use (see [tianon/pgp-happy-eyeballs#4](https://github.com/tianon/pgp-happy-eyeballs/issues/4) for more discussion/details).
-
-Another common solution to this problem is to simply check a `KEYS` file into Git that contains the public keys content (see [Apache Ant's `KEYS` file](https://www.apache.org/dist/ant/KEYS) for an example). The primary downsides of this are that it's a pain during the Official Images review process (since every added/removed `KEYS` entry is many lines of what essentially is just noise to the image `diff`) but more importantly that it becomes much more difficult for users to then *verify* that the key being checked is one that upstream officially publishes (it's fairly common for upstreams to officially publish key fingerprints, as seen in [RabbitMQ's "Signatures" page](https://www.rabbitmq.com/signatures.html)).
-
 Additionally, any usage of the GnuPG command-line tool (`gpg`) [should include the `--batch` command-line flag](https://bugs.debian.org/913614#27) (to enable what is essentially GnuPG's "API" mode).
+
+#### How can I use a `KEYS` file for verifying PGP signatures?
+
+While it is tempting to just commit a `KEYS` file next to the Dockerfile that contains all the possible signers' public keys content and `COPY` it into the image, it fills our Official Images review process with noise and makes it difficult for users to *verify* that the contained keys are authorized for signing that release. It's fairly common for upstreams to officially publish key fingerprints, as seen in [RabbitMQ's "Signatures" page](https://www.rabbitmq.com/signatures.html) but it is not simple to verify a fingerprint against a `KEYS` file.
+
+We prefer just downloading keys from a public keyserver, but it is acceptable to download a published `KEYS` file during build if it is checked for and limited by an expected set of key fingerprints embedded in the Dockerfile. Please do not include the `KEYS` file in the build context and only download it via `curl`, `wget`, or similar tool. The following is an example extracted from the `tomcat` image that uses a `KEYS` file in a tolerable way.
+
+```dockerfile
+RUN set -eux; \
+	# download published artifact ('tomcat.tar.gz') and detached signature ('tomcat.tar.gz.asc') here
+	\
+	# create a temporary GPG home directory to use with full KEYS set
+	GNUPGHOME="$(mktemp -d)"; export GNUPGHOME; \
+	# download published KEYS file
+	curl -fL -o upstream-KEYS 'https://www.apache.org/dist/tomcat/tomcat-11/KEYS'; \
+	# import the full KEYS
+	gpg --batch --import upstream-KEYS; \
+	# filter upstream KEYS file to *just* known/precomputed full fingerprints
+	printf '' > filtered-KEYS; \
+	for key in \
+		'A9C5DF4D22E99998D9875A5110C01C5A2F6059E7' \
+		'48F8E69F6390C9F25CFEDCD268248959359E722B' \
+	; do \
+		gpg --batch --fingerprint "$key"; \
+		gpg --batch --export --armor "$key" >> filtered-KEYS; \
+	done; \
+	# stop GPG background processes and clean up the temporary GPG home directory
+	gpgconf --kill all; \
+	rm -rf "$GNUPGHOME"; \
+	\
+	# filtered-KEYS can now be used to verify the artifact
+	\
+	# create a new temporary GPG home directory to use with filtered keys
+	GNUPGHOME="$(mktemp -d)"; export GNUPGHOME; \
+	# import the filtered keys
+	gpg --batch --import filtered-KEYS; \
+	# verify the signature
+	gpg --batch --verify tomcat.tar.gz.asc tomcat.tar.gz; \
+	# stop GPG background processes and clean up the temporary GPG home directory
+	gpgconf --kill all; \
+	rm -rf "$GNUPGHOME"; \
+	\
+	# extract/use downloaded artifact here
+	\
+	# and then clean up
+	rm tomcat.tar.gz.*
+```
 
 ### Multi-stage Builds
 
