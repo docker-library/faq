@@ -20,3 +20,4 @@
 - empty indexes/lists/images ("no matching manifest" / build system often pushes tags before builds are complete): https://github.com/docker-library/golang/issues/550#issuecomment-2654671051, https://github.com/docker-library/official-images/issues/16625#issuecomment-2062242608, https://github.com/debuerreotype/docker-debian-artifacts/issues/243#issuecomment-3109588047
 - "immutable tags" / content-addressable digests: https://github.com/docker-library/official-images/issues/12277#issuecomment-1105773842, https://github.com/docker-library/cassandra/issues/288#issuecomment-2852410190
 - why would X.Y and X.Y.Z tags not be the same? https://github.com/docker-library/python/issues/1111#issuecomment-3873149445
+- `LABEL`: https://github.com/docker-library/official-images/issues/3540#issuecomment-2715158488
