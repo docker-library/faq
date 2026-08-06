@@ -94,7 +94,6 @@ The actual infrastructure is a combination of machines provided by our generous 
 
 -	`amd64`, `i386`, `windows-amd64`: [Docker, Inc.](https://www.docker.com/) and [GitHub Actions](https://github.com/features/actions)
 -	`arm64v8`, `arm32vN`, Jenkins workers: [Docker, Inc.](https://www.docker.com/)
--	`mips64le`: [Loongson](http://www.loongson.cn/)
 -	`ppc64le`, `s390x`: [IBM](https://www.ibm.com/)
 -	`riscv64`: [Debian](https://www.debian.org/) and [Tianon](https://tianon.xyz)
 
